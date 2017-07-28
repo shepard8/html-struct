@@ -114,320 +114,634 @@ INSERT INTO category (cat_name) VALUES ('sectioning-content-0');
 INSERT INTO category (cat_name) VALUES ('sectioning-root');
 
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-a-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-a-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-a-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-a-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-abbr-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-abbr-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-abbr-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-address-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-address-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-area-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-area-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-article-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-article-element', 'sectioning-content-0');
+-- <a href="#sectioning-content-0">Sectioning content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'sectioning-content-0');
+-- <a href="#sectioning-content-0">Sectioning content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_attr) VALUES ('the-audio-element', 'palpable-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_attr) VALUES ('the-audio-element', 'interactive-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-audio-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-audio-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-audio-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-b-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-b-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-b-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-base-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdi-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdi-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdi-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdo-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdo-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-bdo-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-blockquote-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-blockquote-element', 'sectioning-root');
+-- <a href="#sectioning-root">Sectioning root</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-blockquote-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-body-element', 'sectioning-root');
+-- <a href="#sectioning-root">Sectioning root</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-br-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-br-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-button-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-button-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-button-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-button-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-canvas-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-canvas-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-canvas-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-canvas-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-cite-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-cite-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-cite-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-code-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-code-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-code-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-data-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-data-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-data-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-datalist-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-datalist-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-del-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-del-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-dfn-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-dfn-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-dfn-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-div-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-div-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_elts) VALUES ('the-dl-element', 'palpable-content-0', '{dt, dd}');
+-- If the element's children include at least one name-value group: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-dl-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-em-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-em-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-em-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-embed-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-embed-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-embed-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-embed-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-embed-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-fieldset-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-fieldset-element', 'sectioning-root');
+-- <a href="#sectioning-root">Sectioning root</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-fieldset-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-figure-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-figure-element', 'sectioning-root');
+-- <a href="#sectioning-root">Sectioning root</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-figure-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-footer-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-footer-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-form-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-form-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-h1,-h2,-h3,-h4,-h5,-and-h6-elements', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-h1,-h2,-h3,-h4,-h5,-and-h6-elements', 'heading-content-0');
+-- <a href="#heading-content-0">Heading content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-h1,-h2,-h3,-h4,-h5,-and-h6-elements', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-header-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-header-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-hr-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-i-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-i-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-i-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_attr) VALUES ('the-img-element', 'interactive-content-0', 'attr-hyperlink-usemap');
+-- If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'form-associated-element');
+-- <a href="#form-associated-element">Form-associated element</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-input-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-input-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ins-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ins-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ins-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-kbd-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-kbd-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-kbd-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-keygen-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-keygen-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-keygen-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-keygen-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-label-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-label-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-label-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-label-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-link-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-main-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-main-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-map-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-map-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-map-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-mark-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-mark-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-mark-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-meta-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-meter-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-meter-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-meter-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-nav-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-nav-element', 'sectioning-content-0');
+-- <a href="#sectioning-content-0">Sectioning content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-nav-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-noscript-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-noscript-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-noscript-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_attr) VALUES ('the-object-element', 'interactive-content-0', 'attr-hyperlink-usemap');
+-- If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_elts) VALUES ('the-ol-element', 'palpable-content-0', '{the-li-element}');
+-- If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ol-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-output-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-output-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-output-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-p-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-p-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-pre-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-pre-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-progress-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-progress-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-progress-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-q-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-q-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-q-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ruby-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ruby-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ruby-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-s-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-s-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-s-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-samp-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-samp-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-samp-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-script-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-script-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-script-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-section-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-section-element', 'sectioning-content-0');
+-- <a href="#sectioning-content-0">Sectioning content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-section-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-select-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-select-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-select-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-select-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-small-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-small-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-small-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-span-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-span-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-span-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-strong-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-strong-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-strong-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-style-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-sub-and-sup-elements', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-sub-and-sup-elements', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-sub-and-sup-elements', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-table-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-table-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-td-element', 'sectioning-root');
+-- <a href="#sectioning-root">Sectioning root</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-template-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-template-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-template-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-textarea-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-textarea-element', 'interactive-content-0');
+-- <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-textarea-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-textarea-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-time-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-time-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-time-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-title-element', 'metadata-content-0');
+-- <a href="#metadata-content-0">Metadata content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-u-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-u-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-u-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_elts) VALUES ('the-ul-element', 'palpable-content-0', '{the-li-element}');
+-- If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ul-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-var-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-var-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-var-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'palpable-content-0');
+-- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name, elc_has_attr) VALUES ('the-video-element', 'interactive-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'embedded-content-2');
+-- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-wbr-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-wbr-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
 
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-a-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-abbr-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-address-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-article-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-aside-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-audio-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-b-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-base-element', 'the-head-element', FALSE, TRUE);
+-- In a <code><a href="#the-head-element">head</a></code> element containing no other <code><a href="#the-base-element">base</a></code> elements.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-bdi-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-bdo-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-blockquote-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-br-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-button-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-canvas-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-cite-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-code-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-data-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-datalist-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-del-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-dfn-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-div-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-dl-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-em-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-embed-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-fieldset-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-figure-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-footer-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-form-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-h1,-h2,-h3,-h4,-h5,-and-h6-elements', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-head-element', 'the-html-element', TRUE, FALSE);
+-- As the first element in an <code><a href="#the-html-element">html</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-header-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-hr-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_subdocument (elt_name) VALUES ('the-html-element');
+-- Wherever a subdocument fragment is allowed in a compound document.
 INSERT INTO element_context_root (elt_name) VALUES ('the-html-element');
+-- As the root element of a document.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-i-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-iframe-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-img-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-input-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-ins-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-kbd-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-keygen-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-label-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-legend-element', 'the-fieldset-element', TRUE, FALSE);
+-- As the first child of a <code><a href="#the-fieldset-element">fieldset</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-li-element', 'the-ul-element', FALSE, FALSE);
+-- Inside <code><a href="#the-ul-element">ul</a></code> elements.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-li-element', 'the-ol-element', FALSE, FALSE);
+-- Inside <code><a href="#the-ol-element">ol</a></code> elements.
 INSERT INTO element_context_subelement (elt_name, ecs_elt, ecs_sub) VALUES ('the-link-element', 'the-noscript-element', 'the-head-element');
+-- In a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-link-element', 'metadata-content-0');
+-- Where <a href="#metadata-content-0">metadata content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-map-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-mark-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-meter-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-nav-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-object-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-ol-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-optgroup-element', 'the-select-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-select-element">select</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-option-element', 'the-optgroup-element', FALSE, FALSE);
+-- As a child of an <code><a href="#the-optgroup-element">optgroup</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-option-element', 'the-datalist-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-datalist-element">datalist</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-option-element', 'the-select-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-select-element">select</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-output-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-p-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-pre-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-progress-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-q-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-rb-element', 'the-ruby-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-ruby-element">ruby</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-rtc-element', 'the-ruby-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-ruby-element">ruby</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-ruby-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-s-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-samp-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-script-element', 'script-supporting-elements-0');
+-- Where <a href="#script-supporting-elements-0">script-supporting elements</a> are expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-script-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-script-element', 'metadata-content-0');
+-- Where <a href="#metadata-content-0">metadata content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-section-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-select-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-small-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-span-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-strong-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_subelement (elt_name, ecs_elt, ecs_sub) VALUES ('the-style-element', 'the-noscript-element', 'the-head-element');
+-- In a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-style-element', 'metadata-content-0');
+-- Where <a href="#metadata-content-0">metadata content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-sub-and-sup-elements', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-table-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-td-element', 'the-tr-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-tr-element">tr</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-template-element', 'script-supporting-elements-0');
+-- Where <a href="#script-supporting-elements-0">script-supporting elements</a> are expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-template-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-template-element', 'metadata-content-0');
+-- Where <a href="#metadata-content-0">metadata content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-textarea-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-th-element', 'the-tr-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-tr-element">tr</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-time-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-title-element', 'the-head-element', FALSE, TRUE);
+-- In a <code><a href="#the-head-element">head</a></code> element containing no other <code><a href="#the-title-element">title</a></code> elements.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-tr-element', 'the-tfoot-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-tfoot-element">tfoot</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-tr-element', 'the-tbody-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-tbody-element">tbody</a></code> element.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('the-tr-element', 'the-thead-element', FALSE, FALSE);
+-- As a child of a <code><a href="#the-thead-element">thead</a></code> element.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-u-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-ul-element', 'flow-content-1');
+-- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-var-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-video-element', 'embedded-content-2');
+-- Where <a href="#embedded-content-2">embedded content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-wbr-element', 'phrasing-content-1');
+-- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES
 ('the-template-element', 'context', 'As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn''t have a <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute.')
 , ('the-noscript-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected in <a href="#html-documents">HTML documents</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.')
