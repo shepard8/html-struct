@@ -30,7 +30,7 @@ and category = {
 }
 and elt_category =
   | Category of s_category
-  | Category_has_elt of s_category * s_element
+  | Category_has_elts of s_category * s_element list
 (*
   | Category_has_attr of s_category * s_attribute
   | Category_attr_is of s_category * s_attribute * string
@@ -123,17 +123,20 @@ let add_category t name catname elt_category =
 
 let r_category = Regex.create_exn "^<a(?:(?sU).*)href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a>"
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
+let r_category_has_elts = Regex.create_exn ("^If the element's children include at least one name-value group: " ^ sr_capture_category "cat" ^ "\\.$")
 let add_categories t name dds =
   let f (t : t) dd =
     if dd = "None." then t
     else if Regex.matches r_category dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
       add_category t name catname (Category catname)
-    else if Regex.matches r_category_has_elt dd then begin
+    else if Regex.matches r_category_has_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_category_has_elt dd in
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elt dd in
-      add_category t name catname (Category_has_elt (catname, eltname))
-    end
+      add_category t name catname (Category_has_elts (catname, [eltname]))
+    else if Regex.matches r_category_has_elts dd then
+      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elts dd in
+      add_category t name catname (Category_has_elts (catname, ["dt"; "dd"]))
     else add_unparsed t (name, "category", dd)
   in List.fold dds ~init:t ~f
 
@@ -218,10 +221,12 @@ let print_sql t =
   let element_categories = String.concat ~sep:", " (List.concat (List.map (Map.data t.elements) ~f:(fun e ->
     List.map e.categories ~f:(function
       | Category c -> sprintf "('%s', '%s', NULL)" e.name c
-      | Category_has_elt (c, e') -> sprintf "('%s', '%s', '%s')" e.name c e'
+      | Category_has_elts (c, l) ->
+          let elts = String.concat ~sep:", " l in
+          sprintf "('%s', '%s', '{%s}')" e.name c elts
     )
   ))) in
-  printf "INSERT INTO element_category (elt_name, cat_name, elc_has_elt) VALUES %s;\n\n" element_categories;
+  printf "INSERT INTO element_category (elt_name, cat_name, elc_has_elts) VALUES %s;\n\n" element_categories;
   List.iter (Map.data t.elements) ~f:(fun e ->
     List.iter e.contexts ~f:(function
       | Context_category cat ->

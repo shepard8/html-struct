@@ -1,7 +1,9 @@
--- PostgreSQL syntax; just set the domains elt_name and cat_name to some
--- case-insensitive text fields to get it working on other RDBMSes.
+-- (PostgreSQL syntax)
+
 CREATE EXTENSION citext;
+
 CREATE DOMAIN elt_name AS CITEXT;
+CREATE DOMAIN elt_names AS CITEXT[];
 CREATE DOMAIN cat_name AS CITEXT NOT NULL;
 
 CREATE TABLE element (
@@ -15,7 +17,7 @@ CREATE TABLE category (
 CREATE TABLE element_category (
   elt_name elt_name NOT NULL REFERENCES element,
   cat_name cat_name REFERENCES category,
-  elc_has_elt elt_name DEFAULT NULL REFERENCES element,
+  elc_has_elts elt_names DEFAULT NULL,
   PRIMARY KEY (elt_name, cat_name)
 );
 
