@@ -118,7 +118,6 @@ let add_contexts (t, unparsed) name dds =
       (add_context t name context, unparsed)
     else if Regex.matches r_context_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
-      print_endline eltname;
       let elt = Map.find_exn t.elements eltname in
       let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "the first" in
       let context = Context_element (elt, first) in
@@ -166,11 +165,11 @@ let print_sql t =
   printf "INSERT INTO element (elt_name) VALUES %s;\n\n" elements;
   let categories = String.concat ~sep:", " (List.map (Map.keys t.categories) ~f:(sprintf "('%s')")) in
   printf "INSERT INTO category (cat_name) VALUES %s;\n\n" categories;
-  let element_categories = String.concat ~sep:", " (List.map (Map.data t.elements) ~f:(fun e ->
-    String.concat ~sep:", " (List.map e.categories ~f:(fun c ->
+  let element_categories = String.concat ~sep:", " (List.concat (List.map (Map.data t.elements) ~f:(fun e ->
+    List.map e.categories ~f:(fun c ->
       sprintf "('%s', '%s')" e.name c.name
-    ))
-  )) in
+    )
+  ))) in
   printf "INSERT INTO element_category (elt_name, cat_name) VALUES %s;\n\n" element_categories;
   List.iter (Map.data t.elements) ~f:(fun e ->
     List.iter e.contexts ~f:(function
@@ -189,7 +188,9 @@ let () =
   let file = Sys.argv.(1) in
   let t, unparsed = extract file in
   print_sql t;
-  print_endline "Unparsed :\n";
+  print_endline "-- Unparsed :\n";
   List.iter unparsed ~f:(fun (element, part, content) ->
-    printf "Element %s, %s : %s\n" element part content
+    let r = Regex.create_exn "\n" in
+    let content = Regex.replace_exn ~f:(fun _ -> "\n  -- ") r content in
+    printf "-- Element %s, %s : %s\n" element part content
   )

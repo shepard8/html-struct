@@ -1,5 +1,5 @@
-CREATE DOMAIN elt_name AS VARCHAR(20) NOT NULL;
-CREATE DOMAIN cat_name AS VARCHAR(20) NOT NULL;
+CREATE DOMAIN elt_name AS VARCHAR(21) NOT NULL;
+CREATE DOMAIN cat_name AS VARCHAR(42) NOT NULL;
 
 CREATE TABLE element (
   elt_name elt_name PRIMARY KEY
@@ -22,8 +22,8 @@ CREATE TABLE element_context_category (
 );
 
 CREATE TABLE element_context_child_of (
-  elt_name elt_name REFERENCES elements,
-  ecc_child_of elt_name REFERENCES elements,
+  elt_name elt_name REFERENCES element,
+  ecc_child_of elt_name REFERENCES element,
   ecc_first BOOLEAN NOT NULL,
   PRIMARY KEY (elt_name, ecc_child_of)
 );
