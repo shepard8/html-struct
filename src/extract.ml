@@ -29,6 +29,7 @@ and context =
   | Context_subdocument
   | Context_category of category
   | Context_element of element * bool * bool (* first * once *)
+  | Context_subelement of element * element
 
 type t = {
   elements : element smap;
@@ -122,6 +123,7 @@ let sr_capture_element name =
 let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)s?</a> (?:is|are) expected.$"
 let r_context_elt = Regex.create_exn "^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> elements?.$"
 let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
+let r_context_subelt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element that is a child of a " ^ sr_capture_element "sub" ^ " element.$")
 let add_contexts (t, unparsed) name dds =
   let f ((t, unparsed) : t * unparsed list) dd =
     if dd = "As the root element of a document." then
@@ -144,6 +146,13 @@ let add_contexts (t, unparsed) name dds =
       let elt = Map.find_exn t.elements eltname in
       let context = Context_element (elt, false, true) in
       (add_context t name context, unparsed)
+    else if Regex.matches r_context_subelt dd then
+      let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_subelt dd in
+      let subname = Regex.find_first_exn ~sub:(`Name "sub") r_context_subelt dd in
+      let elt = Map.find_exn t.elements eltname in
+      let sub = Map.find_exn t.elements subname in
+      let context = Context_subelement (elt, sub) in
+      (add_context t name context, unparsed)
     else (t, (name, "context", dd) :: unparsed)
   in List.fold dds ~init:(t, unparsed) ~f
 
@@ -153,36 +162,32 @@ let get_names head =
   let f l m = Regex.Match.get_exn (`Name "name") m :: l in
   List.fold names ~init ~f
 
-let handle_element_early parts (t, unparsed) name =
-  let t = add_element t name in
-  let (t, unparsed) = add_categories (t, unparsed) name parts.categories in
-  (t, unparsed)
-
-let handle_element_late parts (t, unparsed) name =
-  let (t, unparsed) = add_contexts (t, unparsed) name parts.contexts in
-  (t, unparsed)
-
-let handle_elements (t, unparsed) names body =
-  let parts = parse_body body in
-  (* The work has been divided because contexts use categories and elements,
-   * and all of these need have been registered before contexts are created. *)
-  let (t, unparsed) = List.fold names ~init:(t, unparsed) ~f:(handle_element_early parts) in
-  let (t, unparsed) = List.fold names ~init:(t, unparsed) ~f:(handle_element_late parts) in
-  (t, unparsed)
-
 let extract file =
   let content = In_channel.read_all file in
   let matches = Regex.get_matches_exn r_elements content in
-  let elements = Map.empty ~comparator:Cisc.comparator in
-  let categories = Map.empty ~comparator:Cisc.comparator in
-  let t = { elements; categories } in
-  let f t m =
+  let name_parts = List.fold matches ~init:[] ~f:(fun acc m ->
     let head = Regex.Match.get_exn (`Name "head") m in
     let body = Regex.Match.get_exn (`Name "body") m in
     let names = get_names head in
-    handle_elements t names body
+    let parts = parse_body body in
+    List.map names ~f:(fun name -> (name, parts)) @ acc
+  ) in
+  let elements = Map.empty ~comparator:Cisc.comparator in
+  let categories = Map.empty ~comparator:Cisc.comparator in
+  let t = { elements; categories } in
+  let unparsed = [] in
+  let first_pass (t, unparsed) (name, parts) =
+    let t = add_element t name in
+    let (t, unparsed) = add_categories (t, unparsed) name parts.categories in
+    (t, unparsed)
   in
-  List.fold matches ~init:(t, []) ~f
+  let second_pass (t, unparsed) (name, parts) =
+    let (t, unparsed) = add_contexts (t, unparsed) name parts.contexts in
+    (t, unparsed)
+  in
+  let (t, unparsed) = List.fold name_parts ~init:(t, unparsed) ~f:first_pass in
+  let (t, unparsed) = List.fold name_parts ~init:(t, unparsed) ~f:second_pass in
+  (t, unparsed)
 
 let print_sql t =
   let elements = String.concat ~sep:", " (List.map (Map.keys t.elements) ~f:(sprintf "('%s')")) in
@@ -213,6 +218,10 @@ let print_sql t =
           printf
           "INSERT INTO element_context_subdocument (elt_name) VALUES ('%s');\n"
           e.name
+      | Context_subelement (elt, sub) ->
+          printf
+          "INSERT INTO element_context_subelement (elt_name, ecs_elt, ecs_sub) VALUES ('%s', '%s', '%s');\n"
+          e.name elt.name sub.name
     )
   )
 
