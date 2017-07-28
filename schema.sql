@@ -29,3 +29,23 @@ CREATE TABLE element_context_child_of (
   PRIMARY KEY (elt_name, ecc_child_of)
 );
 
+CREATE TABLE element_context_root (
+  elt_name elt_name REFERENCES element
+);
+
+CREATE TABLE element_context_subdocument (
+  elt_name elt_name REFERENCES element
+);
+
+CREATE TABLE element_context_subelement (
+  elt_name elt_name REFERENCES element,
+  ecs_elt elt_name REFERENCES element,
+  ecs_sub elt_name REFERENCES element
+);
+
+CREATE TABLE unparsed (
+  elt_name elt_name REFERENCES element,
+  unp_section VARCHAR(50) NOT NULL,
+  unp_text TEXT NOT NULL
+);
+

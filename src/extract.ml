@@ -225,15 +225,11 @@ let print_sql t =
           "INSERT INTO element_context_subelement (elt_name, ecs_elt, ecs_sub) VALUES ('%s', '%s', '%s');\n"
           e.name elt.name sub.name
     )
-  )
+  );
+  let unparsed = String.concat ~sep:", " (List.map t.unparsed ~f:(fun (a, b, c) -> sprintf "('%s', '%s', '%s')" a b (Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") c))) in
+  printf "INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES %s;\n\n" unparsed
 
 let () =
   let file = Sys.argv.(1) in
   let t = extract file in
-  print_sql t;
-  print_endline "-- Unparsed :\n";
-  List.iter t.unparsed ~f:(fun (element, part, content) ->
-    let r = Regex.create_exn "\n" in
-    let content = Regex.replace_exn ~f:(fun _ -> "\n  -- ") r content in
-    printf "-- Element %s, %s : %s\n" element part content
-  )
+  print_sql t
