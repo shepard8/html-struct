@@ -1,5 +1,8 @@
-CREATE DOMAIN elt_name AS VARCHAR(21);
-CREATE DOMAIN cat_name AS VARCHAR(42) NOT NULL;
+-- PostgreSQL syntax; just set the domains elt_name and cat_name to some
+-- case-insensitive text fields to get it working on other RDBMSes.
+CREATE EXTENSION citext;
+CREATE DOMAIN elt_name AS CITEXT;
+CREATE DOMAIN cat_name AS CITEXT NOT NULL;
 
 CREATE TABLE element (
   elt_name elt_name NOT NULL PRIMARY KEY
