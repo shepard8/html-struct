@@ -31,7 +31,7 @@ and category = {
 and elt_category =
   | Category of s_category
   | Category_has_elt of s_category * s_element
-(* TODO add when attributes are handled
+(*
   | Category_has_attr of s_category * s_attribute
   | Category_attr_is of s_category * s_attribute * string
 *)
@@ -107,44 +107,32 @@ let sr_capture_category name =
     "</a>"
   ) name
 
+let ensure_category (t : t) catname =
+  if Map.mem t.categories catname then t
+  else
+    let cat = { name = catname; elements = [] } in
+    { t with categories = Map.add t.categories catname cat }
+
+let add_category t name catname elt_category =
+  let t = ensure_category t catname in
+  let cat = Map.find_exn t.categories catname in
+  let t = { t with categories = Map.add t.categories catname cat } in
+  let elt = Map.find_exn t.elements name in
+  let elt = { elt with categories = elt_category :: elt.categories } in
+  { t with elements = Map.add t.elements name elt }
+
 let r_category = Regex.create_exn "^<a(?:(?sU).*)href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a>"
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
 let add_categories t name dds =
   let f (t : t) dd =
     if dd = "None." then t
     else if Regex.matches r_category dd then
-      (* Add category to t *)
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
-      let t =
-        if Map.mem t.categories catname
-        then t
-        else
-          let cat = { name = catname; elements = [] } in
-          { t with categories = Map.add t.categories catname cat }
-      in
-      (* Now category is present *)
-      let cat = Map.find_exn t.categories catname in
-      cat.elements <- name :: cat.elements;
-      (* Retrieve element and add category *)
-      let elt = Map.find_exn t.elements name in
-      let elt = { elt with categories = Category catname :: elt.categories } in
-      (* Add the element in the main structure *)
-      { t with elements = Map.add t.elements name elt }
+      add_category t name catname (Category catname)
     else if Regex.matches r_category_has_elt dd then begin
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_category_has_elt dd in
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elt dd in
-      let t =
-        if Map.mem t.categories catname
-        then t
-        else
-          let cat = { name = catname; elements = [] } in
-          { t with categories = Map.add t.categories catname cat }
-      in
-      let cat = Map.find_exn t.categories catname in
-      cat.elements <- name :: cat.elements;
-      let elt = Map.find_exn t.elements name in
-      let elt = { elt with categories = Category_has_elt (catname, eltname) :: elt.categories } in
-      { t with elements = Map.add t.elements name elt }
+      add_category t name catname (Category_has_elt (catname, eltname))
     end
     else add_unparsed t (name, "category", dd)
   in List.fold dds ~init:t ~f
