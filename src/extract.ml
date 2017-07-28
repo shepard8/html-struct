@@ -50,11 +50,6 @@ type t = {
   unparsed : unparsed list;
 }
 
-let r_elements = Regex.create_exn
-  "<h4 id=\"the-[a-zA-Z0-9,-]+elements?\"><span class=\"secno\">4\\.(?P<head>(?sU).*)<dl class=\"element\">(?P<body>(?sU).*)</dl>"
-let r_elements_names = Regex.create_exn
-  "<dfn( id=\"((?U).*)\")?><code>(?P<name>(?U).*)</code></dfn>"
-
 type elem_props = {
   categories : string list;
   contexts : string list;
@@ -91,26 +86,26 @@ let add_element t name =
 let add_unparsed t u = { t with unparsed = u :: t.unparsed }
 
 let sr_element name =
-  sprintf "<code><a href=\"#[a-zA-Z0-9,-]+\">%s</a></code>" name
+  sprintf "<code><a href=\"#%s\">[a-zA-Z0-9,-]+</a></code>" name
 
 let sr_capture_element name =
   sprintf (
-    "<code><a href=\"#[a-zA-Z0-9,-]+\">" ^^
-    "(?P<%s>(?sU).*)" ^^
+    "<code><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
+    "(?:(?sU)[a-zA-Z0-9,-]*)" ^^
     "</a></code>"
   ) name
 
 let sr_capture_category name =
   sprintf (
-    "<a href=\"#[a-zA-Z0-9,-]+\">" ^^
-    "(?P<%s>(?sU).*)" ^^
+    "<a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
+    "(?:(?sU).*)" ^^
     "</a>"
   ) name
 
 let sr_capture_attribute name =
   sprintf (
-    "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#[a-zA-Z0-9,-]+\">" ^^
-    "(?P<%s>(?sU).*)" ^^
+    "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
+    "(?:(?sU).*)" ^^
     "</a></code>"
   ) name
 
@@ -128,10 +123,10 @@ let add_category t name catname elt_category =
   let elt = { elt with categories = elt_category :: elt.categories } in
   { t with elements = Map.add t.elements name elt }
 
-let r_category = Regex.create_exn "^<a(?:(?sU).*)href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a>"
+let r_category = Regex.create_exn ("^" ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elts = Regex.create_exn ("^If the element's children include at least one name-value group: " ^ sr_capture_category "cat" ^ "\\.$")
-let r_category_has_attr = Regex.create_exn ("If the element has a " ^ sr_capture_attribute "attr" ^ " attribute: " ^ sr_capture_category "cat" ^ "\\.$")
+let r_category_has_attr = Regex.create_exn ("^If the element has a " ^ sr_capture_attribute "attr" ^ " attribute: " ^ sr_capture_category "cat" ^ "\\.$")
 let add_categories t name dds =
   let f (t : t) dd =
     if dd = "None." then t
@@ -153,12 +148,16 @@ let add_categories t name dds =
   in List.fold dds ~init:t ~f
 
 let add_context t name context =
+  let t = match context with
+  | Context_category catname -> ensure_category t catname
+  | Context_root | Context_subdocument | Context_element _ | Context_subelement _ -> t
+  in
   let elt = Map.find_exn t.elements name in
   let elt = { elt with contexts = context :: elt.contexts } in
   { t with elements = Map.add t.elements name elt }
 
-let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)s?</a> (?:is|are) expected.$"
-let r_context_elt = Regex.create_exn "^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> elements?.$"
+let r_context_cat = Regex.create_exn ("^Where " ^ sr_capture_category "cat" ^ " (?:is|are) expected.$")
+let r_context_elt = Regex.create_exn ("^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) " ^ sr_capture_element "elt" ^ " elements?\\.$")
 let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
 let r_context_subelt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element that is a child of a " ^ sr_capture_element "sub" ^ " element.$")
 let add_contexts t name dds =
@@ -169,45 +168,35 @@ let add_contexts t name dds =
       add_context t name Context_subdocument
     else if Regex.matches r_context_cat dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_context_cat dd in
-      let cat = Map.find_exn t.categories catname in
       let context = Context_category catname in
       add_context t name context
     else if Regex.matches r_context_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
-      let elt = Map.find_exn t.elements eltname in
       let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "As the first" in
       let context = Context_element (eltname, first, false) in
       add_context t name context
     else if Regex.matches (r_context_once name) dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once name) dd in
-      let elt = Map.find_exn t.elements eltname in
       let context = Context_element (eltname, false, true) in
       add_context t name context
     else if Regex.matches r_context_subelt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_subelt dd in
       let subname = Regex.find_first_exn ~sub:(`Name "sub") r_context_subelt dd in
-      let elt = Map.find_exn t.elements eltname in
-      let sub = Map.find_exn t.elements subname in
       let context = Context_subelement (eltname, subname) in
       add_context t name context
     else add_unparsed t (name, "context", dd)
   in List.fold dds ~init:t ~f
 
-let get_names head =
-  let names = Regex.get_matches_exn r_elements_names head in
-  let init = [] in
-  let f l m = Regex.Match.get_exn (`Name "name") m :: l in
-  List.fold names ~init ~f
+let r_element = Regex.create_exn ("<h4 id=\"(?P<elt>the-[a-zA-Z0-9,-]+elements?)\"><span class=\"secno\">4\\.(?:(?sU).*)<dl class=\"element\">(?P<body>(?sU).*)</dl>")
 
 let extract file =
   let content = In_channel.read_all file in
-  let matches = Regex.get_matches_exn r_elements content in
-  let name_parts = List.fold matches ~init:[] ~f:(fun acc m ->
-    let head = Regex.Match.get_exn (`Name "head") m in
+  let matches = Regex.get_matches_exn r_element content in
+  let name_parts = List.map matches ~f:(fun m ->
+    let eltname = Regex.Match.get_exn (`Name "elt") m in
     let body = Regex.Match.get_exn (`Name "body") m in
-    let names = get_names head in
     let parts = parse_body body in
-    List.map names ~f:(fun name -> (name, parts)) @ acc
+    (eltname, parts)
   ) in
   let elements = Map.empty ~comparator:Cisc.comparator in
   let categories = Map.empty ~comparator:Cisc.comparator in
@@ -225,45 +214,70 @@ let extract file =
   let t = List.fold name_parts ~init:t ~f:second_pass in
   t
 
+let print_sql_category eltname = function
+  | Category catname ->
+      printf (
+        "INSERT INTO element_category (elt_name, cat_name) " ^^
+        "VALUES ('%s', '%s');\n"
+      )eltname catname
+  | Category_has_elts (catname, l) ->
+      let elts = String.concat ~sep:", " l in
+      printf (
+        "INSERT INTO element_category (elt_name, cat_name, elc_has_elts) " ^^
+        "VALUES ('%s', '%s', '{%s}');\n"
+      ) eltname catname elts
+  | Category_has_attr (catname, attrname) ->
+      printf (
+        "INSERT INTO element_category (elt_name, cat_name, elc_has_attr) " ^^
+        "VALUES ('%s', '%s', '%s');\n"
+      ) eltname catname attrname
+
+let sql_of_bool = function
+  | true -> "TRUE"
+  | false -> "FALSE"
+
+let print_sql_context eltname = function
+  | Context_category cat ->
+      printf (
+        "INSERT INTO element_context_category (elt_name, cat_name) " ^^
+        "VALUES ('%s', '%s');\n"
+      ) eltname cat
+  | Context_element (e', first, once) ->
+      printf (
+        "INSERT INTO element_context_child_of " ^^
+        "(elt_name, ecc_child_of, ecc_first, ecc_once) " ^^
+        "VALUES ('%s', '%s', %s, %s);\n"
+      ) eltname e' (sql_of_bool first) (sql_of_bool once)
+  | Context_root ->
+      printf (
+        "INSERT INTO element_context_root (elt_name) VALUES ('%s');\n"
+      ) eltname
+  | Context_subdocument ->
+      printf (
+        "INSERT INTO element_context_subdocument (elt_name) VALUES ('%s');\n"
+      ) eltname
+  | Context_subelement (elt, sub) ->
+      printf (
+        "INSERT INTO element_context_subelement " ^^
+        "(elt_name, ecs_elt, ecs_sub) " ^^
+        "VALUES ('%s', '%s', '%s');\n"
+      ) eltname elt sub
+
 let print_sql t =
-  let elements = String.concat ~sep:", " (List.map (Map.keys t.elements) ~f:(sprintf "('%s')")) in
-  printf "INSERT INTO element (elt_name) VALUES %s;\n\n" elements;
-  let categories = String.concat ~sep:", " (List.map (Map.keys t.categories) ~f:(sprintf "('%s')")) in
-  printf "INSERT INTO category (cat_name) VALUES %s;\n\n" categories;
-  let element_categories = String.concat ~sep:", " (List.concat (List.map (Map.data t.elements) ~f:(fun e ->
-    List.map e.categories ~f:(function
-      | Category c -> sprintf "('%s', '%s', NULL, NULL)" e.name c
-      | Category_has_elts (c, l) ->
-          let elts = String.concat ~sep:", " l in
-          sprintf "('%s', '%s', '{%s}', NULL)" e.name c elts
-      | Category_has_attr (c, a) ->
-          sprintf "('%s', '%s', NULL, '%s')" e.name c a
-    )
-  ))) in
-  printf "INSERT INTO element_category (elt_name, cat_name, elc_has_elts, elc_has_attr) VALUES %s;\n\n" element_categories;
-  List.iter (Map.data t.elements) ~f:(fun e ->
-    List.iter e.contexts ~f:(function
-      | Context_category cat ->
-          printf
-          "INSERT INTO element_context_category (elt_name, cat_name) VALUES ('%s', '%s');\n"
-          e.name cat
-      | Context_element (e', first, once) ->
-          printf
-          "INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('%s', '%s', %s, %s);\n"
-          e.name e' (if first then "TRUE" else "FALSE") (if once then "TRUE" else "FALSE")
-      | Context_root ->
-          printf
-          "INSERT INTO element_context_root (elt_name) VALUES ('%s');\n"
-          e.name
-      | Context_subdocument ->
-          printf
-          "INSERT INTO element_context_subdocument (elt_name) VALUES ('%s');\n"
-          e.name
-      | Context_subelement (elt, sub) ->
-          printf
-          "INSERT INTO element_context_subelement (elt_name, ecs_elt, ecs_sub) VALUES ('%s', '%s', '%s');\n"
-          e.name elt sub
-    )
+  List.iter (Map.keys t.elements) ~f:(
+    printf "INSERT INTO element (elt_name) VALUES ('%s');\n"
+  );
+  printf "\n";
+  List.iter (Map.keys t.categories) ~f:(
+    printf "INSERT INTO category (cat_name) VALUES ('%s');\n"
+  );
+  printf "\n";
+  List.iter (Map.data t.elements) ~f:(fun elt ->
+    List.iter elt.categories ~f:(print_sql_category elt.name)
+  );
+  printf "\n";
+  List.iter (Map.data t.elements) ~f:(fun elt ->
+    List.iter elt.contexts ~f:(print_sql_context elt.name)
   );
   let unparsed = String.concat ~sep:", " (List.map t.unparsed ~f:(fun (a, b, c) -> sprintf "('%s', '%s', '%s')\n" a b (Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") c))) in
   printf "INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES\n%s;\n\n" unparsed
