@@ -15,3 +15,16 @@ CREATE TABLE element_category (
   PRIMARY KEY (elt_name, cat_name)
 );
 
+CREATE TABLE element_context_category (
+  elt_name elt_name REFERENCES element,
+  cat_name cat_name REFERENCES category,
+  PRIMARY KEY (elt_name, cat_name)
+);
+
+CREATE TABLE element_context_child_of (
+  elt_name elt_name REFERENCES elements,
+  ecc_child_of elt_name REFERENCES elements,
+  ecc_first BOOLEAN NOT NULL,
+  PRIMARY KEY (elt_name, ecc_child_of)
+);
+
