@@ -31,9 +31,12 @@ and context =
   | Context_element of element * bool * bool (* first * once *)
   | Context_subelement of element * element
 
+type unparsed = string * string * string
+
 type t = {
   elements : element smap;
   categories : category smap;
+  unparsed : unparsed list;
 }
 
 let r_elements = Regex.create_exn
@@ -70,16 +73,16 @@ let parse_body body =
   }
   | _ -> assert false
 
-type unparsed = string * string * string
-
 let add_element t name =
   let elt = { name; categories = []; contexts = [] } in
   { t with elements = Map.add t.elements name elt }
 
+let add_unparsed t u = { t with unparsed = u :: t.unparsed }
+
 let r_category = Regex.create_exn "^<a(?:(?sU).*)href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a>"
-let add_categories (t, unparsed) name dds =
-  let f ((t, unparsed) : t * unparsed list) dd =
-    if dd = "None." then (t, unparsed)
+let add_categories t name dds =
+  let f (t : t) dd =
+    if dd = "None." then t
     else if Regex.matches r_category dd then
       (* Add category *)
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
@@ -101,9 +104,9 @@ let add_categories (t, unparsed) name dds =
         else c.elements <- elt :: (List.tl_exn c.elements)
       );
       (* Add the element in the main structure *)
-      ({ t with elements = Map.add t.elements name elt }, unparsed)
-    else (t, (name, "category", dd) :: unparsed)
-  in List.fold dds ~init:(t, unparsed) ~f
+      { t with elements = Map.add t.elements name elt }
+    else add_unparsed t (name, "category", dd)
+  in List.fold dds ~init:t ~f
 
 let add_context t name context =
   let elt = Map.find_exn t.elements name in
@@ -124,37 +127,37 @@ let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat
 let r_context_elt = Regex.create_exn "^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> elements?.$"
 let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
 let r_context_subelt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element that is a child of a " ^ sr_capture_element "sub" ^ " element.$")
-let add_contexts (t, unparsed) name dds =
-  let f ((t, unparsed) : t * unparsed list) dd =
+let add_contexts t name dds =
+  let f (t : t) dd =
     if dd = "As the root element of a document." then
-      (add_context t name Context_root, unparsed)
+      add_context t name Context_root
     else if dd = "Wherever a subdocument fragment is allowed in a compound document." then
-      (add_context t name Context_subdocument, unparsed)
+      add_context t name Context_subdocument
     else if Regex.matches r_context_cat dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_context_cat dd in
       let cat = Map.find_exn t.categories catname in
       let context = Context_category cat in
-      (add_context t name context, unparsed)
+      add_context t name context
     else if Regex.matches r_context_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
       let elt = Map.find_exn t.elements eltname in
       let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "As the first" in
       let context = Context_element (elt, first, false) in
-      (add_context t name context, unparsed)
+      add_context t name context
     else if Regex.matches (r_context_once name) dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once name) dd in
       let elt = Map.find_exn t.elements eltname in
       let context = Context_element (elt, false, true) in
-      (add_context t name context, unparsed)
+      add_context t name context
     else if Regex.matches r_context_subelt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_subelt dd in
       let subname = Regex.find_first_exn ~sub:(`Name "sub") r_context_subelt dd in
       let elt = Map.find_exn t.elements eltname in
       let sub = Map.find_exn t.elements subname in
       let context = Context_subelement (elt, sub) in
-      (add_context t name context, unparsed)
-    else (t, (name, "context", dd) :: unparsed)
-  in List.fold dds ~init:(t, unparsed) ~f
+      add_context t name context
+    else add_unparsed t (name, "context", dd)
+  in List.fold dds ~init:t ~f
 
 let get_names head =
   let names = Regex.get_matches_exn r_elements_names head in
@@ -174,20 +177,19 @@ let extract file =
   ) in
   let elements = Map.empty ~comparator:Cisc.comparator in
   let categories = Map.empty ~comparator:Cisc.comparator in
-  let t = { elements; categories } in
-  let unparsed = [] in
-  let first_pass (t, unparsed) (name, parts) =
+  let t = { elements; categories; unparsed = [] } in
+  let first_pass t (name, parts) =
     let t = add_element t name in
-    let (t, unparsed) = add_categories (t, unparsed) name parts.categories in
-    (t, unparsed)
+    let t = add_categories t name parts.categories in
+    t
   in
-  let second_pass (t, unparsed) (name, parts) =
-    let (t, unparsed) = add_contexts (t, unparsed) name parts.contexts in
-    (t, unparsed)
+  let second_pass t (name, parts) =
+    let t = add_contexts t name parts.contexts in
+    t
   in
-  let (t, unparsed) = List.fold name_parts ~init:(t, unparsed) ~f:first_pass in
-  let (t, unparsed) = List.fold name_parts ~init:(t, unparsed) ~f:second_pass in
-  (t, unparsed)
+  let t = List.fold name_parts ~init:t ~f:first_pass in
+  let t = List.fold name_parts ~init:t ~f:second_pass in
+  t
 
 let print_sql t =
   let elements = String.concat ~sep:", " (List.map (Map.keys t.elements) ~f:(sprintf "('%s')")) in
@@ -227,10 +229,10 @@ let print_sql t =
 
 let () =
   let file = Sys.argv.(1) in
-  let t, unparsed = extract file in
+  let t = extract file in
   print_sql t;
   print_endline "-- Unparsed :\n";
-  List.iter unparsed ~f:(fun (element, part, content) ->
+  List.iter t.unparsed ~f:(fun (element, part, content) ->
     let r = Regex.create_exn "\n" in
     let content = Regex.replace_exn ~f:(fun _ -> "\n  -- ") r content in
     printf "-- Element %s, %s : %s\n" element part content
