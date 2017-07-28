@@ -12,7 +12,7 @@ type 'a smap = (string, 'a, Cisc.comparator_witness) Map.t
 
 type element = {
   name : string;
-  categories : category list;
+  categories : category_ list;
   contexts : context list; (* non-normative *)
   (*
   content_model : string list;
@@ -24,6 +24,13 @@ and category = {
   name : string;
   mutable elements : element list;
 }
+and category_ =
+  | Category of category
+  | Category_has_elt of category * element
+(* TODO add when attributes are handled
+  | Category_has_attr of category * attribute
+  | Category_attr_is of category * attribute * string
+*)
 and context =
   | Context_root
   | Context_subdocument
@@ -79,12 +86,30 @@ let add_element t name =
 
 let add_unparsed t u = { t with unparsed = u :: t.unparsed }
 
+let sr_element name =
+  sprintf "<code><a href=\"#[a-zA-Z0-9,-]+\">%s</a></code>" name
+
+let sr_capture_element name =
+  sprintf (
+    "<code><a href=\"#[a-zA-Z0-9,-]+\">" ^^
+    "(?P<%s>(?sU).*)" ^^
+    "</a></code>"
+  ) name
+
+let sr_capture_category name =
+  sprintf (
+    "<a href=\"#[a-zA-Z0-9,-]+\">" ^^
+    "(?P<%s>(?sU).*)" ^^
+    "</a>"
+  ) name
+
 let r_category = Regex.create_exn "^<a(?:(?sU).*)href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a>"
+let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\.$")
 let add_categories t name dds =
   let f (t : t) dd =
     if dd = "None." then t
     else if Regex.matches r_category dd then
-      (* Add category *)
+      (* Add category to t *)
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
       let t =
         if Map.mem t.categories catname
@@ -97,14 +122,36 @@ let add_categories t name dds =
       let cat = Map.find_exn t.categories catname in
       (* Retrieve element and add category *)
       let elt = Map.find_exn t.elements name in
-      let elt = { elt with categories = cat :: elt.categories } in
+      let elt = { elt with categories = Category cat :: elt.categories } in
       (* Add the element in each of his categories *)
-      List.iter elt.categories ~f:(fun c ->
-        if phys_equal c cat then c.elements <- elt :: c.elements
-        else c.elements <- elt :: (List.tl_exn c.elements)
+      List.iter elt.categories ~f:(function
+      | Category c when phys_equal c cat -> c.elements <- elt :: c.elements
+      | Category c -> c.elements <- elt :: (List.tl_exn c.elements)
+      | Category_has_elt (c, _) -> c.elements <- elt :: (List.tl_exn c.elements)
       );
       (* Add the element in the main structure *)
       { t with elements = Map.add t.elements name elt }
+    else if Regex.matches r_category_has_elt dd then begin
+      let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_category_has_elt dd in
+      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elt dd in
+      let t =
+        if Map.mem t.categories catname
+        then t
+        else
+          let cat = { name = catname; elements = [] } in
+          { t with categories = Map.add t.categories catname cat }
+      in
+      let cat = Map.find_exn t.categories catname in
+      let elt = Map.find_exn t.elements name in
+      let elt' = Map.find_exn t.elements eltname in
+      let elt = { elt with categories = Category_has_elt (cat, elt') :: elt.categories } in
+      List.iter elt.categories ~f:(function
+        | Category c -> c.elements <- elt :: (List.tl_exn c.elements)
+        | Category_has_elt (c, _) when phys_equal c cat -> c.elements <- elt :: c.elements
+        | Category_has_elt (c, _) -> c.elements <- elt :: (List.tl_exn c.elements)
+      );
+      { t with elements = Map.add t.elements name elt }
+    end
     else add_unparsed t (name, "category", dd)
   in List.fold dds ~init:t ~f
 
@@ -112,16 +159,6 @@ let add_context t name context =
   let elt = Map.find_exn t.elements name in
   let elt = { elt with contexts = context :: elt.contexts } in
   { t with elements = Map.add t.elements name elt }
-
-let sr_element name =
-  sprintf "<code><a href=\"#[a-zA-Z0-9,-]+\">%s</a></code>" name
-
-let sr_capture_element name =
-  sprintf (
-    "<code><a href=\"#[a-zA-Z0-9,-]+\">" ^^
-    "(?P<%s>(?sU).*)" ^^
-    "</a></code>"
-  ) name
 
 let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)s?</a> (?:is|are) expected.$"
 let r_context_elt = Regex.create_exn "^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> elements?.$"
@@ -197,11 +234,12 @@ let print_sql t =
   let categories = String.concat ~sep:", " (List.map (Map.keys t.categories) ~f:(sprintf "('%s')")) in
   printf "INSERT INTO category (cat_name) VALUES %s;\n\n" categories;
   let element_categories = String.concat ~sep:", " (List.concat (List.map (Map.data t.elements) ~f:(fun e ->
-    List.map e.categories ~f:(fun c ->
-      sprintf "('%s', '%s')" e.name c.name
+    List.map e.categories ~f:(function
+      | Category c -> sprintf "('%s', '%s', NULL)" e.name c.name
+      | Category_has_elt (c, e') -> sprintf "('%s', '%s', '%s')" e.name c.name e'.name
     )
   ))) in
-  printf "INSERT INTO element_category (elt_name, cat_name) VALUES %s;\n\n" element_categories;
+  printf "INSERT INTO element_category (elt_name, cat_name, elc_has_elt) VALUES %s;\n\n" element_categories;
   List.iter (Map.data t.elements) ~f:(fun e ->
     List.iter e.contexts ~f:(function
       | Context_category cat ->
@@ -226,10 +264,11 @@ let print_sql t =
           e.name elt.name sub.name
     )
   );
-  let unparsed = String.concat ~sep:", " (List.map t.unparsed ~f:(fun (a, b, c) -> sprintf "('%s', '%s', '%s')" a b (Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") c))) in
-  printf "INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES %s;\n\n" unparsed
+  let unparsed = String.concat ~sep:", " (List.map t.unparsed ~f:(fun (a, b, c) -> sprintf "('%s', '%s', '%s')\n" a b (Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") c))) in
+  printf "INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES\n%s;\n\n" unparsed
 
 let () =
   let file = Sys.argv.(1) in
   let t = extract file in
   print_sql t
+
