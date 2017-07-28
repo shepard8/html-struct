@@ -100,7 +100,7 @@ let sr_capture_element name =
 
 let sr_capture_category name =
   sprintf (
-    "<a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
+    "<a (?:data-anolis-xref=\"[a-zA-Z0-9, -]+\" |)href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
     "(?:(?sU).*)" ^^
     "</a>"
   ) name
