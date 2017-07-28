@@ -16,3 +16,6 @@ burden of installing OCaml and compile the project, the output of the
 executable is given in output.sql. Please be aware that some parts of the
 specification can not (yet) be parsed by html-struct. These are referenced at
 the end of output.sql as comments.
+
+This is work in progress.
+
