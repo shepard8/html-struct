@@ -11,6 +11,7 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('article', 'Fl
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('aside', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('audio', 'Embedded content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('b', 'Phrasing content');
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('base', 'head', FALSE, TRUE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('bdi', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('bdo', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('blockquote', 'Flow content');
@@ -37,9 +38,11 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('h3', 'Flow co
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('h4', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('h5', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('h6', 'Flow content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('head', 'html', TRUE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('head', 'html', TRUE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('header', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('hr', 'Flow content');
+INSERT INTO element_context_subdocument (elt_name) VALUES ('html');
+INSERT INTO element_context_root (elt_name) VALUES ('html');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('i', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('iframe', 'Embedded content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('img', 'Embedded content');
@@ -48,7 +51,9 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('ins', 'Phrasi
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('kbd', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('keygen', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('label', 'Phrasing content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('legend', 'fieldset', TRUE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('legend', 'fieldset', TRUE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('li', 'ul', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('li', 'ol', FALSE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('link', 'Metadata content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('map', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('mark', 'Phrasing content');
@@ -56,20 +61,21 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('meter', 'Phra
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('nav', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('object', 'Embedded content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('ol', 'Flow content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('optgroup', 'select', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('option', 'optgroup', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('option', 'datalist', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('option', 'select', FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('optgroup', 'select', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('option', 'optgroup', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('option', 'datalist', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('option', 'select', FALSE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('output', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('p', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('pre', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('progress', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('q', 'Phrasing content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('rb', 'ruby', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('rtc', 'ruby', FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('rb', 'ruby', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('rtc', 'ruby', FALSE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('ruby', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('s', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('samp', 'Phrasing content');
+INSERT INTO element_context_category (elt_name, cat_name) VALUES ('script', 'Script-supporting element');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('script', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('script', 'Metadata content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('section', 'Flow content');
@@ -81,15 +87,17 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('style', 'Meta
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('sub', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('sup', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('table', 'Flow content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('td', 'tr', FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('td', 'tr', FALSE, FALSE);
+INSERT INTO element_context_category (elt_name, cat_name) VALUES ('template', 'Script-supporting element');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('template', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('template', 'Metadata content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('textarea', 'Phrasing content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('th', 'tr', FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('th', 'tr', FALSE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('time', 'Phrasing content');
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('tr', 'tfoot', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('tr', 'tbody', FALSE);
-INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('tr', 'thead', FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('title', 'head', FALSE, TRUE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('tr', 'tfoot', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('tr', 'tbody', FALSE, FALSE);
+INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('tr', 'thead', FALSE, FALSE);
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('u', 'Phrasing content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('ul', 'Flow content');
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('var', 'Phrasing content');
@@ -98,10 +106,8 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('wbr', 'Phrasi
 -- Unparsed :
 
 -- Element template, context : As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn't have a <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute.
--- Element template, context : Where <a href="#script-supporting-elements-0">script-supporting elements</a> are expected.
 -- Element noscript, context : Where <a href="#phrasing-content-1">phrasing content</a> is expected in <a href="#html-documents">HTML documents</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.
 -- Element noscript, context : In a <code><a href="#the-head-element">head</a></code> element of an <a data-anolis-xref="HTML documents" href="#html-documents">HTML document</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.
--- Element script, context : Where <a href="#script-supporting-elements-0">script-supporting elements</a> are expected.
 -- Element input, category : If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a href="#palpable-content-0">Palpable content</a>.
 -- Element input, category : If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
 -- Element input, category : If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
@@ -160,8 +166,6 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('wbr', 'Phrasi
 -- Element dd, context : After <code><a href="#the-dt-element">dt</a></code> or <code><a href="#the-dd-element">dd</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.
 -- Element dt, context : Before <code><a href="#the-dd-element">dd</a></code> or <code><a href="#the-dt-element">dt</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.
 -- Element dl, category : If the element's children include at least one name-value group: <a href="#palpable-content-0">Palpable content</a>.
--- Element li, context : Inside <code><a href="#the-ul-element">ul</a></code> elements.
--- Element li, context : Inside <code><a href="#the-ol-element">ol</a></code> elements.
 -- Element ul, category : If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 -- Element ol, category : If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 -- Element body, context : As the second element in an <code><a href="#the-html-element">html</a></code> element.
@@ -171,7 +175,3 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('wbr', 'Phrasi
 -- Element meta, context : If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-head-element">head</a></code> element.
 -- Element meta, context : If the <code data-anolis-xref="attr-meta-charset"><a href="#attr-meta-charset">charset</a></code> attribute is present, or if the element's <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-head-element">head</a></code> element.
 -- Element link, context : In a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.
--- Element base, context : In a <code><a href="#the-head-element">head</a></code> element containing no other <code><a href="#the-base-element">base</a></code> elements.
--- Element title, context : In a <code><a href="#the-head-element">head</a></code> element containing no other <code><a href="#the-title-element">title</a></code> elements.
--- Element html, context : Wherever a subdocument fragment is allowed in a compound document.
--- Element html, context : As the root element of a document.

@@ -25,8 +25,10 @@ and category = {
   mutable elements : element list;
 }
 and context =
+  | Context_root
+  | Context_subdocument
   | Context_category of category
-  | Context_element of element * bool
+  | Context_element of element * bool * bool (* first * once *)
 
 type t = {
   elements : element smap;
@@ -107,11 +109,26 @@ let add_context t name context =
   let elt = { elt with contexts = context :: elt.contexts } in
   { t with elements = Map.add t.elements name elt }
 
-let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)</a> is expected.$"
-let r_context_elt = Regex.create_exn "^As (?P<pos>a|the first) (?:element in|child of) an? <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> element.$"
+let sr_element name =
+  sprintf "<code><a href=\"#[a-zA-Z0-9,-]+\">%s</a></code>" name
+
+let sr_capture_element name =
+  sprintf (
+    "<code><a href=\"#[a-zA-Z0-9,-]+\">" ^^
+    "(?P<%s>(?sU).*)" ^^
+    "</a></code>"
+  ) name
+
+let r_context_cat = Regex.create_exn "^Where <a href=\"#[a-zA-Z0-9,-]+\">(?P<cat>(?sU).*)s?</a> (?:is|are) expected.$"
+let r_context_elt = Regex.create_exn "^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) <code><a href=\"#[a-zA-Z0-9,-]+\">(?P<elt>(?sU)[a-zA-Z0-9]+)</a></code> elements?.$"
+let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
 let add_contexts (t, unparsed) name dds =
   let f ((t, unparsed) : t * unparsed list) dd =
-    if Regex.matches r_context_cat dd then
+    if dd = "As the root element of a document." then
+      (add_context t name Context_root, unparsed)
+    else if dd = "Wherever a subdocument fragment is allowed in a compound document." then
+      (add_context t name Context_subdocument, unparsed)
+    else if Regex.matches r_context_cat dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_context_cat dd in
       let cat = Map.find_exn t.categories catname in
       let context = Context_category cat in
@@ -119,8 +136,13 @@ let add_contexts (t, unparsed) name dds =
     else if Regex.matches r_context_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
       let elt = Map.find_exn t.elements eltname in
-      let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "the first" in
-      let context = Context_element (elt, first) in
+      let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "As the first" in
+      let context = Context_element (elt, first, false) in
+      (add_context t name context, unparsed)
+    else if Regex.matches (r_context_once name) dd then
+      let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once name) dd in
+      let elt = Map.find_exn t.elements eltname in
+      let context = Context_element (elt, false, true) in
       (add_context t name context, unparsed)
     else (t, (name, "context", dd) :: unparsed)
   in List.fold dds ~init:(t, unparsed) ~f
@@ -142,6 +164,8 @@ let handle_element_late parts (t, unparsed) name =
 
 let handle_elements (t, unparsed) names body =
   let parts = parse_body body in
+  (* The work has been divided because contexts use categories and elements,
+   * and all of these need have been registered before contexts are created. *)
   let (t, unparsed) = List.fold names ~init:(t, unparsed) ~f:(handle_element_early parts) in
   let (t, unparsed) = List.fold names ~init:(t, unparsed) ~f:(handle_element_late parts) in
   (t, unparsed)
@@ -177,10 +201,18 @@ let print_sql t =
           printf
           "INSERT INTO element_context_category (elt_name, cat_name) VALUES ('%s', '%s');\n"
           e.name cat.name
-      | Context_element (e', first) ->
+      | Context_element (e', first, once) ->
           printf
-          "INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first) VALUES ('%s', '%s', %s);\n"
-          e.name e'.name (if first then "TRUE" else "FALSE")
+          "INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_first, ecc_once) VALUES ('%s', '%s', %s, %s);\n"
+          e.name e'.name (if first then "TRUE" else "FALSE") (if once then "TRUE" else "FALSE")
+      | Context_root ->
+          printf
+          "INSERT INTO element_context_root (elt_name) VALUES ('%s');\n"
+          e.name
+      | Context_subdocument ->
+          printf
+          "INSERT INTO element_context_subdocument (elt_name) VALUES ('%s');\n"
+          e.name
     )
   )
 
