@@ -18,7 +18,7 @@ type provenance = string (* The html fragment between <dd> and </dd> which led
 to the construct it is attached to. *)
 
 type element = {
-  name : string;
+  elt_name : string;
   categories : elt_category list;
   contexts : elt_context list; (* non-normative *)
   (*
@@ -28,7 +28,7 @@ type element = {
   *)
 }
 and category = {
-  name : string;
+  cat_name : string;
   mutable elements : s_element list;
 }
 and elt_category =
@@ -80,9 +80,9 @@ let parse_body body =
   }
   | _ -> assert false
 
-let add_element t name =
-  let elt = { name; categories = []; contexts = [] } in
-  { t with elements = Map.add t.elements name elt }
+let add_element t elt_name =
+  let elt = { elt_name; categories = []; contexts = [] } in
+  { t with elements = Map.add t.elements elt_name elt }
 
 let add_unparsed t u = { t with unparsed = u :: t.unparsed }
 
@@ -120,16 +120,16 @@ let sr_capture_value name =
 let ensure_category (t : t) catname =
   if Map.mem t.categories catname then t
   else
-    let cat = { name = catname; elements = [] } in
+    let cat = { cat_name = catname; elements = [] } in
     { t with categories = Map.add t.categories catname cat }
 
-let add_category t name catname elt_category =
+let add_category t elt_name catname elt_category =
   let t = ensure_category t catname in
   let cat = Map.find_exn t.categories catname in
   let t = { t with categories = Map.add t.categories catname cat } in
-  let elt = Map.find_exn t.elements name in
+  let elt = Map.find_exn t.elements elt_name in
   let elt = { elt with categories = elt_category :: elt.categories } in
-  { t with elements = Map.add t.elements name elt }
+  { t with elements = Map.add t.elements elt_name elt }
 
 let r_category = Regex.create_exn ("^" ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
@@ -142,23 +142,23 @@ let r_category_has_attr = Regex.create_exn ("^If the element has a " ^ sr_captur
  * the specification. *)
 let r_category_attr_is = Regex.create_exn ("^If the " ^ sr_capture_attribute "attr" ^ " attribute is (?P<neg><em>not</em> |)in the " ^ sr_capture_value "value" ^ " state: (?P<cats>(?s).*)$")
 let r_category_attr_is_cats = Regex.create_exn (sr_capture_category "cat")
-let add_categories t name dds =
+let add_categories t elt_name dds =
   let f (t : t) dd =
     if dd = "None." then t
     else if Regex.matches r_category dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
-      add_category t name catname (Category (catname, dd))
+      add_category t elt_name catname (Category (catname, dd))
     else if Regex.matches r_category_has_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_category_has_elt dd in
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elt dd in
-      add_category t name catname (Category_has_elts (catname, [eltname], dd))
+      add_category t elt_name catname (Category_has_elts (catname, [eltname], dd))
     else if Regex.matches r_category_has_elts dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elts dd in
-      add_category t name catname (Category_has_elts (catname, ["dt"; "dd"], dd))
+      add_category t elt_name catname (Category_has_elts (catname, ["dt"; "dd"], dd))
     else if Regex.matches r_category_has_attr dd then
       let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_has_attr dd in
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_attr dd in
-      add_category t name catname (Category_has_attr (catname, attrname, dd))
+      add_category t elt_name catname (Category_has_attr (catname, attrname, dd))
     else if Regex.matches r_category_attr_is dd then
       let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_attr_is dd in
       let value = Regex.find_first_exn ~sub:(`Name "value") r_category_attr_is dd in
@@ -168,12 +168,12 @@ let add_categories t name dds =
       let cats = Regex.find_all_exn ~sub:(`Name "cat") r_category_attr_is_cats cats in
       List.fold_left cats ~init:t ~f:(fun t catname ->
         let category = Category_attr_is (catname, attrname, value, neg, dd) in
-        add_category t name catname category
+        add_category t elt_name catname category
       )
-    else add_unparsed t (name, "category", dd)
+    else add_unparsed t (elt_name, "category", dd)
   in List.fold dds ~init:t ~f
 
-let add_context t name context =
+let add_context t elt_name context =
   let t = match context with
   | Context_category (catname, _) -> ensure_category t catname
   | Context_root _
@@ -181,41 +181,41 @@ let add_context t name context =
   | Context_element _
   | Context_subelement _ -> t
   in
-  let elt = Map.find_exn t.elements name in
+  let elt = Map.find_exn t.elements elt_name in
   let elt = { elt with contexts = context :: elt.contexts } in
-  { t with elements = Map.add t.elements name elt }
+  { t with elements = Map.add t.elements elt_name elt }
 
 let r_context_cat = Regex.create_exn ("^Where " ^ sr_capture_category "cat" ^ " (?:is|are) expected.$")
 let r_context_elt = Regex.create_exn ("^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) " ^ sr_capture_element "elt" ^ " elements?\\.$")
 let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
 let r_context_subelt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element that is a child of a " ^ sr_capture_element "sub" ^ " element.$")
-let add_contexts t name dds =
+let add_contexts t elt_name dds =
   let f (t : t) dd =
     if dd = "As the root element of a document." then
       let context = Context_root dd in
-      add_context t name context
+      add_context t elt_name context
     else if dd = "Wherever a subdocument fragment is allowed in a compound document." then
       let context = Context_subdocument dd in
-      add_context t name context
+      add_context t elt_name context
     else if Regex.matches r_context_cat dd then
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_context_cat dd in
       let context = Context_category (catname, dd) in
-      add_context t name context
+      add_context t elt_name context
     else if Regex.matches r_context_elt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
       let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "As the first" in
       let context = Context_element (eltname, first, false, dd) in
-      add_context t name context
-    else if Regex.matches (r_context_once name) dd then
-      let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once name) dd in
+      add_context t elt_name context
+    else if Regex.matches (r_context_once elt_name) dd then
+      let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once elt_name) dd in
       let context = Context_element (eltname, false, true, dd) in
-      add_context t name context
+      add_context t elt_name context
     else if Regex.matches r_context_subelt dd then
       let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_subelt dd in
       let subname = Regex.find_first_exn ~sub:(`Name "sub") r_context_subelt dd in
       let context = Context_subelement (eltname, subname, dd) in
-      add_context t name context
-    else add_unparsed t (name, "context", dd)
+      add_context t elt_name context
+    else add_unparsed t (elt_name, "context", dd)
   in List.fold dds ~init:t ~f
 
 let r_element = Regex.create_exn ("<h4 id=\"(?P<elt>the-[a-zA-Z0-9,-]+elements?)\"><span class=\"secno\">4\\.(?:(?sU).*)<dl class=\"element\">(?P<body>(?sU).*)</dl>")
@@ -232,18 +232,13 @@ let extract file =
   let elements = Map.empty ~comparator:Cisc.comparator in
   let categories = Map.empty ~comparator:Cisc.comparator in
   let t = { elements; categories; unparsed = [] } in
-  let first_pass t (name, parts) =
-    let t = add_element t name in
-    let t = add_categories t name parts.categories in
+  let f t (elt_name, parts) =
+    let t = add_element t elt_name in
+    let t = add_categories t elt_name parts.categories in
+    let t = add_contexts t elt_name parts.contexts in
     t
   in
-  let second_pass t (name, parts) =
-    let t = add_contexts t name parts.contexts in
-    t
-  in
-  let t = List.fold name_parts ~init:t ~f:first_pass in
-  let t = List.fold name_parts ~init:t ~f:second_pass in
-  t
+  List.fold name_parts ~init:t ~f
 
 let sql_of_bool = function
   | true -> "TRUE"
@@ -316,11 +311,11 @@ let print_sql t =
   );
   printf "\n";
   List.iter (Map.data t.elements) ~f:(fun elt ->
-    List.iter elt.categories ~f:(print_sql_category elt.name)
+    List.iter elt.categories ~f:(print_sql_category elt.elt_name)
   );
   printf "\n";
   List.iter (Map.data t.elements) ~f:(fun elt ->
-    List.iter elt.contexts ~f:(print_sql_context elt.name)
+    List.iter elt.contexts ~f:(print_sql_context elt.elt_name)
   );
   printf "\n";
   List.iter (t.unparsed) ~f:(fun (elt, sec, dd) ->
