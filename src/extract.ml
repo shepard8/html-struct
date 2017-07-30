@@ -35,9 +35,7 @@ and elt_category =
   | Category of s_category * provenance
   | Category_has_elts of s_category * s_element list * provenance
   | Category_has_attr of s_category * s_attribute * provenance
-(*
-  | Category_attr_is of s_category * s_attribute * string
-*)
+  | Category_attr_is of s_category * s_attribute * string * bool * provenance
 and elt_context =
   | Context_root of provenance
   | Context_subdocument of provenance
@@ -107,9 +105,16 @@ let sr_capture_category name =
 
 let sr_capture_attribute name =
   sprintf (
-    "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
+    "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^ (* TODO can we add attr- in the <%s> group? *)
     "(?:(?sU).*)" ^^
     "</a></code>"
+  ) name
+
+let sr_capture_value name =
+  sprintf (
+    "<a data-anolis-xref=\"[a-zA-Z0-9 ,-]+\" href=\"#(?P<%s>[a-zA-Z0-9()= ,-]+)\">" ^^
+    "[a-zA-Z0-9, -]+" ^^
+    "</a>"
   ) name
 
 let ensure_category (t : t) catname =
@@ -130,6 +135,13 @@ let r_category = Regex.create_exn ("^" ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elts = Regex.create_exn ("^If the element's children include at least one name-value group: " ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_attr = Regex.create_exn ("^If the element has a " ^ sr_capture_attribute "attr" ^ " attribute: " ^ sr_capture_category "cat" ^ "\\.$")
+(* The two following ones need regular checking, as a "but" keyword could
+ * change the meaning for example. The point is that several categories may be
+ * listed, and the easiest way to retrieve them is just to retrieve all the
+ * category uris. But this is not guaranteed to work in the future versions of
+ * the specification. *)
+let r_category_attr_is = Regex.create_exn ("^If the " ^ sr_capture_attribute "attr" ^ " attribute is (?P<neg><em>not</em> |)in the " ^ sr_capture_value "value" ^ " state: (?P<cats>(?s).*)$")
+let r_category_attr_is_cats = Regex.create_exn (sr_capture_category "cat")
 let add_categories t name dds =
   let f (t : t) dd =
     if dd = "None." then t
@@ -147,6 +159,23 @@ let add_categories t name dds =
       let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_has_attr dd in
       let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_attr dd in
       add_category t name catname (Category_has_attr (catname, attrname, dd))
+    else if Regex.matches r_category_attr_is dd then
+      let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_attr_is dd in
+      let value = Regex.find_first_exn ~sub:(`Name "value") r_category_attr_is dd in
+      let neg = Regex.find_first_exn ~sub:(`Name "neg") r_category_attr_is dd in
+      let neg : bool = neg = "" in
+      let cats = Regex.find_first_exn ~sub:(`Name "cats") r_category_attr_is dd in
+      let cats = Regex.find_all_exn ~sub:(`Name "cat") r_category_attr_is_cats cats in
+      prerr_endline "ATTRVAL";
+      prerr_endline dd;
+      prerr_endline attrname;
+      prerr_endline value;
+      prerr_endline (if neg then "pos" else "neg");
+      List.iter cats prerr_endline;
+      List.fold_left cats ~init:t ~f:(fun t catname ->
+        let category = Category_attr_is (catname, attrname, value, neg, dd) in
+        add_category t name catname category
+      )
     else add_unparsed t (name, "category", dd)
   in List.fold dds ~init:t ~f
 
@@ -222,6 +251,10 @@ let extract file =
   let t = List.fold name_parts ~init:t ~f:second_pass in
   t
 
+let sql_of_bool = function
+  | true -> "TRUE"
+  | false -> "FALSE"
+
 let comment_sql s =
   let r = Regex.create_exn "\n" in
   "-- " ^ Regex.replace_exn ~f:(fun _ -> "\n  -- ") r s
@@ -235,18 +268,20 @@ let print_sql_category eltname = function
   | Category_has_elts (catname, l, prov) ->
       let elts = String.concat ~sep:", " l in
       printf (
-        "INSERT INTO element_category (elt_name, cat_name, elc_has_elts) " ^^
+        "INSERT INTO element_category_has_elts (elt_name, cat_name, ele_elts) " ^^
         "VALUES ('%s', '%s', '{%s}');\n%s\n"
       ) eltname catname elts (comment_sql prov)
   | Category_has_attr (catname, attrname, prov) ->
       printf (
-        "INSERT INTO element_category (elt_name, cat_name, elc_has_attr) " ^^
+        "INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) " ^^
         "VALUES ('%s', '%s', '%s');\n%s\n"
       ) eltname catname attrname (comment_sql prov)
-
-let sql_of_bool = function
-  | true -> "TRUE"
-  | false -> "FALSE"
+  | Category_attr_is (catname, attrname, value, neg, prov) ->
+      printf (
+        "INSERT INTO element_category_value " ^^
+        "(elt_name, cat_name, att_name, ecv_value, ecv_neg) " ^^
+        "VALUES ('%s', '%s', '%s', '%s', %s);\n%s\n"
+      ) eltname catname attrname value (sql_of_bool neg) (comment_sql prov)
 
 let print_sql_context eltname = function
   | Context_category (cat, prov) ->
@@ -293,8 +328,14 @@ let print_sql t =
   List.iter (Map.data t.elements) ~f:(fun elt ->
     List.iter elt.contexts ~f:(print_sql_context elt.name)
   );
-  let unparsed = String.concat ~sep:", " (List.map t.unparsed ~f:(fun (a, b, c) -> sprintf "('%s', '%s', '%s')\n" a b (Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") c))) in
-  printf "INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES\n%s;\n\n" unparsed
+  printf "\n";
+  List.iter (t.unparsed) ~f:(fun (elt, sec, dd) ->
+    let text = Regex.replace_exn ~f:(fun _ -> "''") (Regex.create_exn "'") dd in
+    printf (
+      "INSERT INTO unparsed (elt_name, unp_section, unp_text) " ^^
+      "VALUES ('%s', '%s', '%s');\n"
+    ) elt sec text
+  )
 
 let () =
   let file = Sys.argv.(1) in
