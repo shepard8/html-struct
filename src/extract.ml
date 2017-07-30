@@ -166,12 +166,6 @@ let add_categories t name dds =
       let neg : bool = neg = "" in
       let cats = Regex.find_first_exn ~sub:(`Name "cats") r_category_attr_is dd in
       let cats = Regex.find_all_exn ~sub:(`Name "cat") r_category_attr_is_cats cats in
-      prerr_endline "ATTRVAL";
-      prerr_endline dd;
-      prerr_endline attrname;
-      prerr_endline value;
-      prerr_endline (if neg then "pos" else "neg");
-      List.iter cats prerr_endline;
       List.fold_left cats ~init:t ~f:(fun t catname ->
         let category = Category_attr_is (catname, attrname, value, neg, dd) in
         add_category t name catname category
