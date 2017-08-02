@@ -81,6 +81,12 @@ let print_sql_context eltname = function
         "(elt_name, ecb_parent, ecb_before, ecb_after) " ^^
         "VALUES ('%s', '%s', '{%s}', '{%s}');\n%s\n"
       ) eltname parent (tab before) (tab after) (comment prov)
+  | Extract.Context_child_no_attr (parent, attr, prov) ->
+      printf (
+        "INSERT INTO element_context_child_no_attr " ^^
+        "(elt_name, cna_parent, att_name) " ^^
+        "VALUES ('%s', '%s', '%s');\n%s\n"
+      ) eltname parent attr (comment prov)
 
 let print_sql t =
   List.iter (Map.keys t.Extract.elements) ~f:(

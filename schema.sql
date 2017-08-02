@@ -5,6 +5,7 @@ CREATE EXTENSION citext;
 CREATE DOMAIN elt_name AS CITEXT NOT NULL;
 CREATE DOMAIN elt_names AS CITEXT[];
 CREATE DOMAIN cat_name AS CITEXT NOT NULL;
+CREATE DOMAIN cat_names AS CITEXT[];
 CREATE DOMAIN att_name AS CITEXT;
 CREATE DOMAIN att_value AS CITEXT;
 
@@ -85,6 +86,12 @@ CREATE TABLE element_context_between (
   ecb_parent elt_name REFERENCES element,
   ecb_before elt_names,
   ecb_after elt_names
+);
+
+CREATE TABLE element_context_child_no_attr (
+  elt_name elt_name REFERENCES element,
+  cna_parent elt_name REFERENCES element,
+  att_name att_name
 );
 
 CREATE TABLE unparsed (

@@ -645,10 +645,14 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-cite-elem
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-code-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
+INSERT INTO element_context_child_no_attr (elt_name, cna_parent, att_name) VALUES ('the-col-element', 'the-colgroup-element', 'attr-col-span');
+-- As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn't have a <code data-anolis-xref="attr-col-span"><a href="#attr-col-span">span</a></code> attribute.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-data-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-datalist-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
+INSERT INTO element_context_between (elt_name, ecb_parent, ecb_before, ecb_after) VALUES ('the-dd-element', 'the-dl-element', '{the-dt-element, the-dd-element}', '{}');
+-- After <code><a href="#the-dt-element">dt</a></code> or <code><a href="#the-dd-element">dd</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-del-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-dfn-element', 'phrasing-content-1');
@@ -657,6 +661,8 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-div-eleme
 -- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-dl-element', 'flow-content-1');
 -- Where <a href="#flow-content-1">flow content</a> is expected.
+INSERT INTO element_context_between (elt_name, ecb_parent, ecb_before, ecb_after) VALUES ('the-dt-element', 'the-dl-element', '{}', '{the-dd-element, the-dt-element}');
+-- Before <code><a href="#the-dd-element">dd</a></code> or <code><a href="#the-dt-element">dt</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-em-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-embed-element', 'embedded-content-2');
@@ -775,6 +781,8 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-table-ele
 -- Where <a href="#flow-content-1">flow content</a> is expected.
 INSERT INTO element_context_child_of (elt_name, ecc_child_of, ecc_position, ecc_once) VALUES ('the-td-element', 'the-tr-element', 'any', FALSE);
 -- As a child of a <code><a href="#the-tr-element">tr</a></code> element.
+INSERT INTO element_context_child_no_attr (elt_name, cna_parent, att_name) VALUES ('the-template-element', 'the-colgroup-element', 'attr-colgroup-span');
+-- As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn't have a <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-template-element', 'script-supporting-elements-0');
 -- Where <a href="#script-supporting-elements-0">script-supporting elements</a> are expected.
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-template-element', 'phrasing-content-1');
@@ -810,13 +818,11 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-video-ele
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-wbr-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'context', 'As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn''t have a <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected in <a href="#html-documents">HTML documents</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'In a <code><a href="#the-head-element">head</a></code> element of an <a data-anolis-xref="HTML documents" href="#html-documents">HTML document</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tr-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, and <code><a href="#the-thead-element">thead</a></code> elements, but only if there are no <code><a href="#the-tbody-element">tbody</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tfoot-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, <code><a href="#the-thead-element">thead</a></code>, <code><a href="#the-tbody-element">tbody</a></code>, and <code><a href="#the-tr-element">tr</a></code> elements, but only if there are no other <code><a href="#the-tfoot-element">tfoot</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tbody-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, and <code><a href="#the-thead-element">thead</a></code> elements, but only if there are no <code><a href="#the-tr-element">tr</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-col-element', 'context', 'As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn''t have a <code data-anolis-xref="attr-col-span"><a href="#attr-col-span">span</a></code> attribute.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-colgroup-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code> elements and before any <code><a href="#the-thead-element">thead</a></code>, <code><a href="#the-tbody-element">tbody</a></code>, <code><a href="#the-tfoot-element">tfoot</a></code>, and <code><a href="#the-tr-element">tr</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-area-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected, but only if there is a <code><a href="#the-map-element">map</a></code> element ancestor or a <code><a href="#the-template-element">template</a></code> element ancestor.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-track-element', 'context', 'As a child of a <a href="#media-element">media element</a>, before any <a href="#flow-content-1">flow content</a>.');
@@ -825,8 +831,6 @@ INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-param-elemen
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rp-element', 'context', 'As a child of a <code><a href="#the-ruby-element">ruby</a></code> element, either immediately before or immediately after an <code><a href="#the-rt-element">rt</a></code> or <code><a href="#the-rtc-element">rtc</a></code> element, but not between <code><a href="#the-rt-element">rt</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rt-element', 'context', 'As a child of a <code><a href="#the-ruby-element">ruby</a></code> or of an <code><a href="#the-rtc-element">rtc</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-main-element', 'context', 'Where <a href="#flow-content-1">flow content</a> is expected, but with no <code><a href="#the-article-element">article</a></code>, <code><a href="#the-aside-element">aside</a></code>, <code><a href="#the-footer-element">footer</a></code>, <code><a href="#the-header-element">header</a></code> or <code><a href="#the-nav-element">nav</a></code> element ancestors.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dd-element', 'context', 'After <code><a href="#the-dt-element">dt</a></code> or <code><a href="#the-dd-element">dd</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dt-element', 'context', 'Before <code><a href="#the-dd-element">dd</a></code> or <code><a href="#the-dt-element">dt</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-name"><a href="#attr-meta-name">name</a></code> attribute is present: where <a href="#metadata-content-0">metadata content</a> is expected.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-head-element">head</a></code> element.');

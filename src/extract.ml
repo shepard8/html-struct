@@ -41,6 +41,7 @@ and elt_context =
   | Context_element of s_element * position * bool * provenance (* bool : once *)
   | Context_subelement of s_element * s_element * provenance
   | Context_between of s_element * s_element list * s_element list * provenance
+  | Context_child_no_attr of s_element * s_attribute * provenance
 
 type unparsed = s_element * string * string
 
@@ -182,7 +183,8 @@ let add_context t elt_name context =
   | Context_subdocument _
   | Context_element _
   | Context_subelement _
-  | Context_between _ -> t
+  | Context_between _
+  | Context_child_no_attr _ -> t
   in
   let elt = Map.find_exn t.elements elt_name in
   let elt = { elt with contexts = context :: elt.contexts } in
@@ -259,6 +261,32 @@ let l_contexts elt_name t = HtmlRe.([
     let before : string list = all_of elt before in
     let after : string list = all_of elt after in
     let context = Context_between (parent, before, after, dd) in
+    add_context t elt_name context
+  ) dd);
+  
+  (fun dd -> first_match (
+    e |> ds |> one_of ["After "; "Before "] |> all |> txt " elements inside " |> elt |>
+    txt " elements." |> de
+  ) (fun where elts parent ->
+    let context =
+      if where = "After "
+      then Context_between (parent, all_of elt elts, [], dd)
+      else Context_between (parent, [], all_of elt elts, dd)
+    in
+    add_context t elt_name context
+  ) dd);
+
+  (* The "As a child of a media element" contexts are unhandled, because it is
+   * not clear what a media element is. It seems it is not a category, but also
+   * that its only a group for the audio and video elements (admit it, that
+   * really looks like a category ... However "media element" is not listed in
+   * the categories of audio and video elements). *)
+
+  (fun dd -> first_match (
+    e |> ds |> txt "As a child of a " |> elt |>
+    txt " element that doesn't have a " |> att |> txt " attribute." |> de
+  ) (fun eltname attname ->
+    let context = Context_child_no_attr (eltname, attname, dd) in
     add_context t elt_name context
   ) dd);
 
