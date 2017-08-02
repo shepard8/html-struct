@@ -31,8 +31,14 @@ let att t = capture t (
 )
 let con t = capture t (
   "<a data-anolis-xref=\"[a-zA-Z0-9 ,-]+\" href=\"#(?P<%d>[a-zA-Z0-9()= ,-]+)\">" ^^
-  "[a-zA-Z0-=, -]" ^^
+  "[a-zA-Z0-9, -]+" ^^
   "</a>"
+)
+let neg t = capture t (
+  "(?P<%d><em>not</em> |)"
+)
+let all t = capture t (
+  "(?P<%d>(?s).*)"
 )
 
 let parse : type b. (_, b) c -> _ -> _ -> b -> _ -> _ = fun st re i f s ->
@@ -49,4 +55,9 @@ let first_match (s, r, i) f txt =
   if Regex.matches re txt
   then Some (parse s re (i - 1) f txt)
   else None
+
+let all_of capturer txt =
+  let (_, r, _) = e |> capturer in
+  let re = Regex.create_exn r in
+  Regex.find_all_exn ~sub:(`Name "0") re txt
 

@@ -131,72 +131,67 @@ let add_category t elt_name catname elt_category =
   let elt = { elt with categories = elt_category :: elt.categories } in
   { t with elements = Map.add t.elements elt_name elt }
 
-let r_none = HtmlRe.(e |> ds |> txt "None." |> de)
-let r_category = HtmlRe.(e |> ds |> cat |> txt "." |> de)
-let r_category_has_elt = HtmlRe.(
-  e |> ds |> txt "If the element's children include at least on " |>
-  elt |> txt " element: " |> cat |> txt ".")
+let l_categories elt_name t = HtmlRe.([
+  (* CHECK it seems that some elements have the None category while they should
+   * not. *)
+  (fun dd -> first_match (
+    e |> ds |> txt "None." |> de
+  ) (
+    t
+  ) dd);
 
-let l elt_name t = [
-  (fun dd -> HtmlRe.first_match r_none t dd);
-  (fun dd -> HtmlRe.first_match r_category (fun catname ->
+  (fun dd -> first_match (
+    e |> ds |> cat |> txt "." |> de
+  ) (fun catname ->
     add_category t elt_name catname (Category (catname, dd))
   ) dd);
-  (fun dd -> HtmlRe.first_match r_category_has_elt (fun eltname catname ->
+
+  (fun dd -> first_match (
+    e |> ds |> txt "If the element's children include at least one " |>
+    elt |> txt " element: " |> cat |> txt "." |> de
+  ) (fun eltname catname ->
     add_category t elt_name catname (Category_has_elts (catname, [eltname], dd))
   ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "If the element's children include at least one " |>
+    txt "name-value group: " |> cat |> txt "." |> de
+  ) (fun catname ->
+    add_category t elt_name catname (Category_has_elts (catname, ["dt"; "dd"], dd))
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "If the element has a " |> att |> txt " attribute: " |>
+    cat |> txt "." |> de
+  ) (fun attname catname ->
+    add_category t elt_name catname (Category_has_attr (catname, attname, dd))
+  ) dd);
+
+  (* The following one needs regular checking, as a "but" keyword could change
+   * the meaning for example. The point is that several categories may be
+   * listed, and the easiest way to retrieve them is just to retrieve all the
+   * category uris. But this is not guaranteed to work in the future versions
+   * of the specification. *)
+  (fun dd -> first_match (
+    e |> ds |> txt "If the " |> att |> txt " attribute is " |> neg |>
+    txt "in the " |> con |> txt " state: " |> all |> de
+  ) (fun attname neg con cats ->
+    let neg : bool = neg = "" in
+    let cats = all_of cat cats in
+    List.fold_left cats ~init:t ~f:(fun t catname ->
+      let category = Category_attr_is (catname, attname, con, neg, dd) in
+      add_category t elt_name catname category
+    )
+  ) dd);
+
   (fun dd -> Some (add_unparsed t (elt_name, "category", dd)));
-]
+])
 
 let add_categories t elt_name dds =
   let f (t : t) dd =
-    List.find_map_exn (l elt_name t) ~f:(fun f -> f dd)
+    List.find_map_exn (l_categories elt_name t) ~f:(fun f -> f dd)
   in
   List.fold dds ~init:t ~f
-
-  (*
-let r_category = Regex.create_exn ("^" ^ sr_capture_category "cat" ^ "\\.$")
-let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
-let r_category_has_elts = Regex.create_exn ("^If the element's children include at least one name-value group: " ^ sr_capture_category "cat" ^ "\\.$")
-let r_category_has_attr = Regex.create_exn ("^If the element has a " ^ sr_capture_attribute "attr" ^ " attribute: " ^ sr_capture_category "cat" ^ "\\.$")
-(* The two following ones need regular checking, as a "but" keyword could
- * change the meaning for example. The point is that several categories may be
- * listed, and the easiest way to retrieve them is just to retrieve all the
- * category uris. But this is not guaranteed to work in the future versions of
- * the specification. *)
-let r_category_attr_is = Regex.create_exn ("^If the " ^ sr_capture_attribute "attr" ^ " attribute is (?P<neg><em>not</em> |)in the " ^ sr_capture_value "value" ^ " state: (?P<cats>(?s).*)$")
-let r_category_attr_is_cats = Regex.create_exn (sr_capture_category "cat")
-let add_categories t elt_name dds =
-  let f (t : t) dd =
-    if dd = "None." then t
-    else if Regex.matches r_category dd then
-      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category dd in
-      add_category t elt_name catname (Category (catname, dd))
-    else if Regex.matches r_category_has_elt dd then
-      let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_category_has_elt dd in
-      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elt dd in
-      add_category t elt_name catname (Category_has_elts (catname, [eltname], dd))
-    else if Regex.matches r_category_has_elts dd then
-      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_elts dd in
-      add_category t elt_name catname (Category_has_elts (catname, ["dt"; "dd"], dd))
-    else if Regex.matches r_category_has_attr dd then
-      let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_has_attr dd in
-      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_category_has_attr dd in
-      add_category t elt_name catname (Category_has_attr (catname, attrname, dd))
-    else if Regex.matches r_category_attr_is dd then
-      let attrname = Regex.find_first_exn ~sub:(`Name "attr") r_category_attr_is dd in
-      let value = Regex.find_first_exn ~sub:(`Name "value") r_category_attr_is dd in
-      let neg = Regex.find_first_exn ~sub:(`Name "neg") r_category_attr_is dd in
-      let neg : bool = neg = "" in
-      let cats = Regex.find_first_exn ~sub:(`Name "cats") r_category_attr_is dd in
-      let cats = Regex.find_all_exn ~sub:(`Name "cat") r_category_attr_is_cats cats in
-      List.fold_left cats ~init:t ~f:(fun t catname ->
-        let category = Category_attr_is (catname, attrname, value, neg, dd) in
-        add_category t elt_name catname category
-      )
-    else add_unparsed t (elt_name, "category", dd)
-  in List.fold dds ~init:t ~f
-  *)
 
 let add_context t elt_name context =
   let t = match context with

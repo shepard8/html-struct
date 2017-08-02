@@ -104,6 +104,8 @@ INSERT INTO element (elt_name) VALUES ('the-wbr-element');
 INSERT INTO category (cat_name) VALUES ('category-form-attr');
 INSERT INTO category (cat_name) VALUES ('category-label');
 INSERT INTO category (cat_name) VALUES ('category-listed');
+INSERT INTO category (cat_name) VALUES ('category-reset');
+INSERT INTO category (cat_name) VALUES ('category-submit');
 INSERT INTO category (cat_name) VALUES ('embedded-content-2');
 INSERT INTO category (cat_name) VALUES ('flow-content-1');
 INSERT INTO category (cat_name) VALUES ('form-associated-element');
@@ -148,6 +150,10 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', '
 -- <a href="#sectioning-content-0">Sectioning content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) VALUES ('the-audio-element', 'palpable-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#palpable-content-0">Palpable content</a>.
+INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) VALUES ('the-audio-element', 'interactive-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-audio-element', 'embedded-content-2');
 -- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-audio-element', 'phrasing-content-1');
@@ -240,6 +246,8 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-div-element', 'pa
 -- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-div-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_category_has_elts (elt_name, cat_name, ele_elts) VALUES ('the-dl-element', 'palpable-content-0', '{dt, dd}');
+-- If the element's children include at least one name-value group: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-dl-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-em-element', 'palpable-content-0');
@@ -310,6 +318,8 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-iframe-element', 
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'palpable-content-0');
 -- <a href="#palpable-content-0">Palpable content</a>.
+INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) VALUES ('the-img-element', 'interactive-content-0', 'attr-hyperlink-usemap');
+-- If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'form-associated-element');
 -- <a href="#form-associated-element">Form-associated element</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'embedded-content-2');
@@ -318,6 +328,32 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'ph
 -- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-img-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'palpable-content-0', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a href="#palpable-content-0">Palpable content</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'form-associated-element', 'attr-input-type', 'hidden-state-(type=hidden)', TRUE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-form-attr', 'attr-input-type', 'hidden-state-(type=hidden)', TRUE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-reset', 'attr-input-type', 'hidden-state-(type=hidden)', TRUE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-submit', 'attr-input-type', 'hidden-state-(type=hidden)', TRUE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-listed', 'attr-input-type', 'hidden-state-(type=hidden)', TRUE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'form-associated-element', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-form-attr', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-reset', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-submit', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-label', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'category-listed', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_value (elt_name, cat_name, att_name, ecv_value, ecv_neg) VALUES ('the-input-element', 'interactive-content-0', 'attr-input-type', 'hidden-state-(type=hidden)', FALSE);
+-- If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-input-element', 'phrasing-content-1');
 -- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-input-element', 'flow-content-1');
@@ -398,12 +434,16 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 
 -- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'category-listed');
 -- <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.
+INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) VALUES ('the-object-element', 'interactive-content-0', 'attr-hyperlink-usemap');
+-- If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'embedded-content-2');
 -- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'phrasing-content-1');
 -- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-object-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_category_has_elts (elt_name, cat_name, ele_elts) VALUES ('the-ol-element', 'palpable-content-0', '{the-li-element}');
+-- If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ol-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-output-element', 'palpable-content-0');
@@ -542,6 +582,8 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-u-element', 'phra
 -- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-u-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_category_has_elts (elt_name, cat_name, ele_elts) VALUES ('the-ul-element', 'palpable-content-0', '{the-li-element}');
+-- If the element's children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-ul-element', 'flow-content-1');
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-var-element', 'palpable-content-0');
@@ -552,6 +594,8 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-var-element', 'fl
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'palpable-content-0');
 -- <a href="#palpable-content-0">Palpable content</a>.
+INSERT INTO element_category_has_attr (elt_name, cat_name, att_name) VALUES ('the-video-element', 'interactive-content-0', 'attr-media-controls');
+-- If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'embedded-content-2');
 -- <a href="#embedded-content-2">Embedded content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-video-element', 'phrasing-content-1');
@@ -757,10 +801,6 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-wbr-eleme
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'context', 'As a child of a <code><a href="#the-colgroup-element">colgroup</a></code> element that doesn''t have a <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected in <a href="#html-documents">HTML documents</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'In a <code><a href="#the-head-element">head</a></code> element of an <a data-anolis-xref="HTML documents" href="#html-documents">HTML document</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-input-element', 'category', 'If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a href="#palpable-content-0">Palpable content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-input-element', 'category', 'If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-input-element', 'category', 'If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a data-anolis-xref="category-listed" href="#category-listed">Listed</a>, <a data-anolis-xref="category-label" href="#category-label">labelable</a>, <a data-anolis-xref="category-submit" href="#category-submit">submittable</a>, <a data-anolis-xref="category-reset" href="#category-reset">resettable</a>, and <a data-anolis-xref="category-form-attr" href="#category-form-attr">reassociateable</a> <a href="#form-associated-element">form-associated element</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-input-element', 'category', 'If the <code data-anolis-xref="attr-input-type"><a href="#attr-input-type">type</a></code> attribute is <em>not</em> in the <a data-anolis-xref="attr-input-type-hidden" href="#hidden-state-(type=hidden)">Hidden</a> state: <a href="#interactive-content-0">Interactive content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tr-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any
    <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, and <code><a href="#the-thead-element">thead</a></code>
    elements, but only if there are no <code><a href="#the-tbody-element">tbody</a></code> elements that
@@ -797,12 +837,7 @@ INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-area-element
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-track-element', 'context', 'As a child of a <a href="#media-element">media element</a>, before any <a href="#flow-content-1">flow content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-source-element', 'context', 'As a child of a <a href="#media-element">media element</a>, before any <a href="#flow-content-1">flow content</a>
  or <code><a href="#the-track-element">track</a></code> elements.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-audio-element', 'category', 'If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#palpable-content-0">Palpable content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-audio-element', 'category', 'If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-video-element', 'category', 'If the element has a <code data-anolis-xref="attr-media-controls"><a href="#attr-media-controls">controls</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-param-element', 'context', 'As a child of an <code><a href="#the-object-element">object</a></code> element, before any <a href="#flow-content-1">flow content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-object-element', 'category', 'If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-img-element', 'category', 'If the element has a <code data-anolis-xref="attr-hyperlink-usemap"><a href="#attr-hyperlink-usemap">usemap</a></code> attribute: <a href="#interactive-content-0">Interactive content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rp-element', 'context', '
       As a child of a <code><a href="#the-ruby-element">ruby</a></code> element, either immediately before or immediately 
       after an  <code><a href="#the-rt-element">rt</a></code> or <code><a href="#the-rtc-element">rtc</a></code> element, but not between <code><a href="#the-rt-element">rt</a></code>
@@ -814,9 +849,6 @@ INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-main-element
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-figcaption-element', 'context', 'As the first or last child of a <code><a href="#the-figure-element">figure</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dd-element', 'context', 'After <code><a href="#the-dt-element">dt</a></code> or <code><a href="#the-dd-element">dd</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dt-element', 'context', 'Before <code><a href="#the-dd-element">dd</a></code> or <code><a href="#the-dt-element">dt</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dl-element', 'category', 'If the element''s children include at least one name-value group: <a href="#palpable-content-0">Palpable content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-ul-element', 'category', 'If the element''s children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-ol-element', 'category', 'If the element''s children include at least one <code><a href="#the-li-element">li</a></code> element: <a href="#palpable-content-0">Palpable content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-article-element', 'category', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-main-element">main</a></code> element descendants.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-body-element', 'context', 'As the second element in an <code><a href="#the-html-element">html</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-name"><a href="#attr-meta-name">name</a></code> attribute is present: where <a href="#metadata-content-0">metadata content</a> is expected.');
