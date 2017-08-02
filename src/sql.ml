@@ -88,6 +88,17 @@ let print_sql_context eltname = function
         "VALUES ('%s', '%s', '%s');\n%s\n"
       ) eltname parent attr (comment prov)
 
+let print_sql_model eltname = function
+  | Extract.Model_empty prov ->
+      printf (
+        "INSERT INTO element_model_empty (elt_name) VALUES ('%s');\n%s\n"
+      ) eltname (comment prov)
+  | Extract.Model_category (cat, prov) ->
+      printf (
+        "INSERT INTO element_model_category (elt_name, cat_name) " ^^
+        "VALUES ('%s', '%s');\n%s\n"
+      ) eltname cat (comment prov)
+
 let print_sql t =
   List.iter (Map.keys t.Extract.elements) ~f:(
     printf "INSERT INTO element (elt_name) VALUES ('%s');\n"
@@ -103,6 +114,10 @@ let print_sql t =
   printf "\n";
   List.iter (Map.data t.Extract.elements) ~f:(fun elt ->
     List.iter elt.Extract.contexts ~f:(print_sql_context elt.Extract.elt_name)
+  );
+  printf "\n";
+  List.iter (Map.data t.Extract.elements) ~f:(fun elt ->
+    List.iter elt.Extract.content_model ~f:(print_sql_model elt.Extract.elt_name)
   );
   printf "\n";
   List.iter (t.Extract.unparsed) ~f:(fun (elt, sec, dd) ->

@@ -94,6 +94,15 @@ CREATE TABLE element_context_child_no_attr (
   att_name att_name
 );
 
+CREATE TABLE element_model_empty (
+  elt_name elt_name REFERENCES element
+);
+
+CREATE TABLE element_model_category (
+  elt_name elt_name REFERENCES element,
+  cat_name cat_name REFERENCES category
+);
+
 CREATE TABLE unparsed (
   elt_name elt_name REFERENCES element,
   unp_section VARCHAR(50) NOT NULL,

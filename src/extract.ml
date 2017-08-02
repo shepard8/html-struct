@@ -18,8 +18,8 @@ type element = {
   elt_name : string;
   categories : elt_category list;
   contexts : elt_context list; (* non-normative *)
+  content_model : elt_content_model list;
   (*
-  content_model : string list;
   content_attributes_groups : attribute_group list;
   content_attributes : attribute list;
   *)
@@ -42,6 +42,9 @@ and elt_context =
   | Context_subelement of s_element * s_element * provenance
   | Context_between of s_element * s_element list * s_element list * provenance
   | Context_child_no_attr of s_element * s_attribute * provenance
+and elt_content_model =
+  | Model_empty of provenance
+  | Model_category of s_category * provenance
 
 type unparsed = s_element * string * string
 
@@ -89,7 +92,7 @@ let parse_body body =
   | _ -> assert false
 
 let add_element t elt_name =
-  let elt = { elt_name; categories = []; contexts = [] } in
+  let elt = { elt_name; categories = []; contexts = []; content_model = [] } in
   { t with elements = Map.add t.elements elt_name elt }
 
 let add_unparsed t u = { t with unparsed = u :: t.unparsed }
@@ -299,6 +302,38 @@ let add_contexts t elt_name dds =
   in
   List.fold dds ~init:t ~f
 
+let add_model t elt_name model =
+  let t = match model with
+  | Model_category (catname, _) -> ensure_category t catname
+  | Model_empty _ -> t
+  in
+  let elt = Map.find_exn t.elements elt_name in
+  let elt = { elt with content_model = model :: elt.content_model } in
+  { t with elements = Map.add t.elements elt_name elt }
+
+let l_models elt_name t = HtmlRe.([
+  (fun dd -> first_match (
+    e |> ds |> txt "Empty." |> de
+  ) (
+    add_model t elt_name (Model_empty dd)
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> cat |> txt "." |> de
+  ) (fun catname ->
+    let model = Model_category (catname, dd) in
+    add_model t elt_name model
+  ) dd);
+
+  (fun dd -> Some (add_unparsed t (elt_name, "model", dd)))
+])
+
+let add_models t elt_name dds =
+  let f (t : t) dd =
+    List.find_map_exn (l_models elt_name t) ~f:(fun f -> f dd)
+  in
+  List.fold dds ~init:t ~f
+
 let r_element = Regex.create_exn ("<h4 id=\"(?P<elt>the-[a-zA-Z0-9,-]+elements?)\"><span class=\"secno\">4\\.(?:(?sU).*)<dl class=\"element\">(?P<body>(?sU).*)</dl>")
 
 let extract file =
@@ -317,6 +352,7 @@ let extract file =
     let t = add_element t elt_name in
     let t = add_categories t elt_name parts.categories in
     let t = add_contexts t elt_name parts.contexts in
+    let t = add_models t elt_name parts.content_model in
     t
   in
   List.fold name_parts ~init:t ~f

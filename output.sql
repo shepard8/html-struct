@@ -117,6 +117,8 @@ INSERT INTO category (cat_name) VALUES ('phrasing-content-1');
 INSERT INTO category (cat_name) VALUES ('script-supporting-elements-0');
 INSERT INTO category (cat_name) VALUES ('sectioning-content-0');
 INSERT INTO category (cat_name) VALUES ('sectioning-root');
+INSERT INTO category (cat_name) VALUES ('text-content');
+INSERT INTO category (cat_name) VALUES ('transparent');
 
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-a-element', 'palpable-content-0');
 -- <a href="#palpable-content-0">Palpable content</a>.
@@ -818,20 +820,207 @@ INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-video-ele
 INSERT INTO element_context_category (elt_name, cat_name) VALUES ('the-wbr-element', 'phrasing-content-1');
 -- Where <a href="#phrasing-content-1">phrasing content</a> is expected.
 
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-abbr-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-area-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-article-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-b-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-base-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-bdi-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-bdo-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-blockquote-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-body-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-br-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-cite-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-code-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-col-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-data-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-dd-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-del-element', 'transparent');
+-- <a href="#transparent">Transparent</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-div-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-em-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-embed-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-figcaption-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-h1,-h2,-h3,-h4,-h5,-and-h6-elements', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-hr-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-i-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-img-element');
+-- Empty.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-input-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-ins-element', 'transparent');
+-- <a href="#transparent">Transparent</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-kbd-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-keygen-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-legend-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-li-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-link-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-main-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-map-element', 'transparent');
+-- <a href="#transparent">Transparent</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-mark-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-meta-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-output-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-p-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-param-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-pre-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-q-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-rb-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-rp-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-rt-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-s-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-samp-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-section-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-small-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-source-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-span-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-strong-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-sub-and-sup-elements', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-td-element', 'flow-content-1');
+-- <a href="#flow-content-1">Flow content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-textarea-element', 'text-content');
+-- <a data-anolis-xref="text content" href="#text-content">Text</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-time-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-title-element', 'text-content');
+-- <a data-anolis-xref="text content" href="#text-content">Text</a> that is not <a href="#inter-element-whitespace">inter-element whitespace</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-track-element');
+-- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-u-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-var-element', 'phrasing-content-1');
+-- <a href="#phrasing-content-1">Phrasing content</a>.
+INSERT INTO element_model_empty (elt_name) VALUES ('the-wbr-element');
+-- Empty.
+
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-canvas-element', 'model', '<a href="#transparent">Transparent</a><!-- --><!-- -->.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-select-element">select</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-fieldset-element">fieldset</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-tr-element">tr</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-thead-element">thead</a></code>, <code><a href="#the-tbody-element">tbody</a></code>, and <code><a href="#the-tfoot-element">tfoot</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-colgroup-element">colgroup</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-table-element">table</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-video-element">video</a></code> and <code><a href="#the-audio-element">audio</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-object-element">object</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-ruby-element">ruby</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-figure-element">figure</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-dl-element">dl</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-ol-element">ol</a></code> and <code><a href="#the-ul-element">ul</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: <a href="#flow-content-1">Flow content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Either: <a href="#metadata-content-0">Metadata content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'model', 'Otherwise: text that conforms to the requirements given in the prose.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'model', 'When <a data-anolis-xref="concept-n-noscript" href="#concept-n-noscript">scripting is disabled</a>, not in a <code><a href="#the-head-element">head</a></code> element: <a href="#transparent">transparent</a>, but there must be no <code><a href="#the-noscript-element">noscript</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'model', 'When <a data-anolis-xref="concept-n-noscript" href="#concept-n-noscript">scripting is disabled</a>, in a <code><a href="#the-head-element">head</a></code> element: in any order, zero or more <code><a href="#the-link-element">link</a></code> elements, zero or more <code><a href="#the-style-element">style</a></code> elements, and zero or more <code><a href="#the-meta-element">meta</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected in <a href="#html-documents">HTML documents</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-noscript-element', 'context', 'In a <code><a href="#the-head-element">head</a></code> element of an <a data-anolis-xref="HTML documents" href="#html-documents">HTML document</a>, if there are no ancestor <code><a href="#the-noscript-element">noscript</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-script-element', 'model', 'If there <em>is</em> a <code data-anolis-xref="attr-script-src"><a href="#attr-script-src">src</a></code> attribute, the element must be either empty or contain only <a href="#inline-documentation-for-external-scripts">script documentation</a> that also matches <a href="#restrictions-for-contents-of-script-elements">script content restrictions</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-script-element', 'model', 'If there is no <code data-anolis-xref="attr-script-src"><a href="#attr-script-src">src</a></code> attribute, depends on the value of the <code data-anolis-xref="attr-script-type"><a href="#attr-script-type">type</a></code> attribute, but must match <a href="#restrictions-for-contents-of-script-elements">script content restrictions</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-fieldset-element', 'model', 'Optionally a <code><a href="#the-legend-element">legend</a></code> element, followed by <a href="#flow-content-1">flow content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meter-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a>, but there must be no <code><a href="#the-meter-element">meter</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-progress-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a>, but there must be no <code><a href="#the-progress-element">progress</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-option-element', 'model', 'If the element has no <code data-anolis-xref="attr-option-label"><a href="#attr-option-label">label</a></code> attribute: <a data-anolis-xref="text content" href="#text-content">Text</a> that is not <a href="#inter-element-whitespace">inter-element whitespace</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-option-element', 'model', 'If the element has a <code data-anolis-xref="attr-option-label"><a href="#attr-option-label">label</a></code> attribute but no <code data-anolis-xref="attr-option-value"><a href="#attr-option-value">value</a></code> attribute: <a data-anolis-xref="text content" href="#text-content">Text</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-option-element', 'model', 'If the element has a <code data-anolis-xref="attr-option-label"><a href="#attr-option-label">label</a></code> attribute and a <code data-anolis-xref="attr-option-value"><a href="#attr-option-value">value</a></code> attribute: Empty.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-optgroup-element', 'model', 'Zero or more <code><a href="#the-option-element">option</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-datalist-element', 'model', 'Or: Zero or more <code><a href="#the-option-element">option</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-datalist-element', 'model', 'Either: <a href="#phrasing-content-1">phrasing content</a> (with zero or more <code><a href="#the-option-element">option</a></code> elements descendants).');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-select-element', 'model', 'Zero or more <code><a href="#the-option-element">option</a></code>, <code><a href="#the-optgroup-element">optgroup</a></code>, and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-button-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a>, but there must be no <a href="#interactive-content-0">interactive content</a> descendant.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-label-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a>, but with no descendant <a data-anolis-xref="category-label" href="#category-label">labelable elements</a> unless it is the element''s <a href="#labeled-control">labeled control</a>, and no descendant <code><a href="#the-label-element">label</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-form-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-form-element">form</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-th-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-header-element">header</a></code>, <code><a href="#the-footer-element">footer</a></code>, <a href="#sectioning-content-0">sectioning content</a>, or <a href="#heading-content-0">heading content</a> descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tr-element', 'model', 'Zero or more <code><a href="#the-td-element">td</a></code>, <code><a href="#the-th-element">th</a></code>, and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tr-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, and <code><a href="#the-thead-element">thead</a></code> elements, but only if there are no <code><a href="#the-tbody-element">tbody</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tfoot-element', 'model', 'Zero or more <code><a href="#the-tr-element">tr</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tfoot-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, <code><a href="#the-thead-element">thead</a></code>, <code><a href="#the-tbody-element">tbody</a></code>, and <code><a href="#the-tr-element">tr</a></code> elements, but only if there are no other <code><a href="#the-tfoot-element">tfoot</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-thead-element', 'model', 'Zero or more <code><a href="#the-tr-element">tr</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tbody-element', 'model', 'Zero or more <code><a href="#the-tr-element">tr</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-tbody-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code>, <code><a href="#the-colgroup-element">colgroup</a></code>, and <code><a href="#the-thead-element">thead</a></code> elements, but only if there are no <code><a href="#the-tr-element">tr</a></code> elements that are children of the <code><a href="#the-table-element">table</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-colgroup-element', 'model', 'If the <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute is absent: Zero or more <code><a href="#the-col-element">col</a></code> and <code><a href="#the-template-element">template</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-colgroup-element', 'model', 'If the <code data-anolis-xref="attr-colgroup-span"><a href="#attr-colgroup-span">span</a></code> attribute is present: Empty.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-colgroup-element', 'context', 'As a child of a <code><a href="#the-table-element">table</a></code> element, after any <code><a href="#the-caption-element">caption</a></code> elements and before any <code><a href="#the-thead-element">thead</a></code>, <code><a href="#the-tbody-element">tbody</a></code>, <code><a href="#the-tfoot-element">tfoot</a></code>, and <code><a href="#the-tr-element">tr</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-caption-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no descendant <code><a href="#the-table-element">table</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-table-element', 'model', 'In this order: optionally a <code><a href="#the-caption-element">caption</a></code> element, followed by zero or more <code><a href="#the-colgroup-element">colgroup</a></code> elements, followed optionally by a <code><a href="#the-thead-element">thead</a></code> element, followed optionally by a <code><a href="#the-tfoot-element">tfoot</a></code> element, followed by either zero or more <code><a href="#the-tbody-element">tbody</a></code> elements or one or more <code><a href="#the-tr-element">tr</a></code> elements, followed optionally by a <code><a href="#the-tfoot-element">tfoot</a></code> element (but there can only be one <code><a href="#the-tfoot-element">tfoot</a></code> element child in total), optionally intermixed with one or more <a href="#script-supporting-elements-0">script-supporting elements</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-area-element', 'context', 'Where <a href="#phrasing-content-1">phrasing content</a> is expected, but only if there is a <code><a href="#the-map-element">map</a></code> element ancestor or a <code><a href="#the-template-element">template</a></code> element ancestor.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-track-element', 'context', 'As a child of a <a href="#media-element">media element</a>, before any <a href="#flow-content-1">flow content</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-source-element', 'context', 'As a child of a <a href="#media-element">media element</a>, before any <a href="#flow-content-1">flow content</a> or <code><a href="#the-track-element">track</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-audio-element', 'model', 'If the element does not have a <code data-anolis-xref="attr-media-src"><a href="#attr-media-src">src</a></code> attribute: zero or more <code><a href="#the-source-element">source</a></code> elements, then zero or more <code><a href="#the-track-element">track</a></code> elements, then <a href="#transparent">transparent</a>, but with no <a href="#media-element">media element</a> descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-audio-element', 'model', 'If the element has a <code data-anolis-xref="attr-media-src"><a href="#attr-media-src">src</a></code> attribute: zero or more <code><a href="#the-track-element">track</a></code> elements, then <a href="#transparent">transparent</a>, but with no <a href="#media-element">media element</a> descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-video-element', 'model', 'If the element does not have a <code data-anolis-xref="attr-media-src"><a href="#attr-media-src">src</a></code> attribute: zero or more <code><a href="#the-source-element">source</a></code> elements, then zero or more <code><a href="#the-track-element">track</a></code> elements, then <a href="#transparent">transparent</a>, but with no <a href="#media-element">media element</a> descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-video-element', 'model', 'If the element has a <code data-anolis-xref="attr-media-src"><a href="#attr-media-src">src</a></code> attribute: zero or more <code><a href="#the-track-element">track</a></code> elements, then <a href="#transparent">transparent</a>, but with no <a href="#media-element">media element</a> descendants.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-param-element', 'context', 'As a child of an <code><a href="#the-object-element">object</a></code> element, before any <a href="#flow-content-1">flow content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-object-element', 'model', 'Zero or more <code><a href="#the-param-element">param</a></code> elements, then, <a href="#transparent">transparent</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-iframe-element', 'model', 'Text that conforms to <a href="#iframe-content-model">the requirements given in the prose</a>.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rp-element', 'context', 'As a child of a <code><a href="#the-ruby-element">ruby</a></code> element, either immediately before or immediately after an <code><a href="#the-rt-element">rt</a></code> or <code><a href="#the-rtc-element">rtc</a></code> element, but not between <code><a href="#the-rt-element">rt</a></code> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rtc-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a> or <code><a href="#the-rt-element">rt</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-rt-element', 'context', 'As a child of a <code><a href="#the-ruby-element">ruby</a></code> or of an <code><a href="#the-rtc-element">rtc</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-ruby-element', 'model', 'See prose.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dfn-element', 'model', '<a href="#phrasing-content-1">Phrasing content</a>, but there must be no <code><a href="#the-dfn-element">dfn</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-a-element', 'model', '<a href="#transparent">Transparent</a>, but there must be no <a href="#interactive-content-0">interactive content</a> descendant.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-main-element', 'context', 'Where <a href="#flow-content-1">flow content</a> is expected, but with no <code><a href="#the-article-element">article</a></code>, <code><a href="#the-aside-element">aside</a></code>, <code><a href="#the-footer-element">footer</a></code>, <code><a href="#the-header-element">header</a></code> or <code><a href="#the-nav-element">nav</a></code> element ancestors.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-figure-element', 'model', 'Or: <a href="#flow-content-1">Flow content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-figure-element', 'model', 'Or: <a href="#flow-content-1">Flow content</a> followed by one <code><a href="#the-figcaption-element">figcaption</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-figure-element', 'model', 'Either: One <code><a href="#the-figcaption-element">figcaption</a></code> element followed by <a href="#flow-content-1">flow content</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dt-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-header-element">header</a></code>, <code><a href="#the-footer-element">footer</a></code>, <a href="#sectioning-content-0">sectioning content</a>, or <a href="#heading-content-0">heading content</a> descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dl-element', 'model', 'Zero or more groups each consisting of one or more <code><a href="#the-dt-element">dt</a></code> elements followed by one or more <code><a href="#the-dd-element">dd</a></code> elements, optionally intermixed with <a href="#script-supporting-elements-0">script-supporting elements</a>.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-ul-element', 'model', 'Zero or more <code><a href="#the-li-element">li</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-ol-element', 'model', 'Zero or more <code><a href="#the-li-element">li</a></code> and <a data-anolis-xref="script-supporting elements" href="#script-supporting-elements-0">script-supporting</a> elements.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-address-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <a href="#heading-content-0">heading content</a> descendants, no <a href="#sectioning-content-0">sectioning content</a> descendants, and no <code><a href="#the-header-element">header</a></code>, <code><a href="#the-footer-element">footer</a></code>, or <code><a href="#the-address-element">address</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-footer-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-header-element">header</a></code>, <code><a href="#the-footer-element">footer</a></code>, or <code><a href="#the-main-element">main</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-header-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-header-element">header</a></code>, <code><a href="#the-footer-element">footer</a></code>, or <code><a href="#the-main-element">main</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-aside-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-main-element">main</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-nav-element', 'model', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-main-element">main</a></code> element descendants.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-style-element', 'model', 'Depends on the value of the <code data-anolis-xref="attr-style-type"><a href="#attr-style-type">type</a></code> attribute, but must match requirements described in prose below.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-name"><a href="#attr-meta-name">name</a></code> attribute is present: where <a href="#metadata-content-0">metadata content</a> is expected.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-head-element">head</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-charset"><a href="#attr-meta-charset">charset</a></code> attribute is present, or if the element''s <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-head-element">head</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-head-element', 'model', 'Otherwise: One or more elements of <a href="#metadata-content-0">metadata content</a>, of which exactly one is a <code><a href="#the-title-element">title</a></code> element and no more than one is a <code><a href="#the-base-element">base</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-head-element', 'model', 'If the document is <a href="#an-iframe-srcdoc-document">an <code>iframe</code> <code data-anolis-xref="attr-iframe-srcdoc">srcdoc</code> document</a> or if title information is available from a higher-level protocol: Zero or more elements of <a href="#metadata-content-0">metadata content</a>, of which no more than one is a <code><a href="#the-title-element">title</a></code> element and no more than one is a <code><a href="#the-base-element">base</a></code> element.');
+INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-html-element', 'model', 'A <code><a href="#the-head-element">head</a></code> element followed by a <code><a href="#the-body-element">body</a></code> element.');
