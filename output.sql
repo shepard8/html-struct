@@ -840,6 +840,8 @@ INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-body-elemen
 -- <a href="#flow-content-1">Flow content</a>.
 INSERT INTO element_model_empty (elt_name) VALUES ('the-br-element');
 -- Empty.
+INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-canvas-element', 'transparent');
+-- <a href="#transparent">Transparent</a>.
 INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-cite-element', 'phrasing-content-1');
 -- <a href="#phrasing-content-1">Phrasing content</a>.
 INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-code-element', 'phrasing-content-1');
@@ -939,7 +941,6 @@ INSERT INTO element_model_category (elt_name, cat_name) VALUES ('the-var-element
 INSERT INTO element_model_empty (elt_name) VALUES ('the-wbr-element');
 -- Empty.
 
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-canvas-element', 'model', '<a href="#transparent">Transparent</a><!-- --><!-- -->.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-select-element">select</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-fieldset-element">fieldset</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-template-element', 'model', 'Or: The content model of <code><a href="#the-tr-element">tr</a></code> elements.');
