@@ -1,16 +1,9 @@
-(* TODO Cisc is no longer needed *)
-
 open Core
 open Printf
 module Regex = Re2.Regex
 
 (* Case-insensitive string comparator *)
-module Cisc = Comparator.Make (struct
-  type t = string
-  let sexp_of_t = String.sexp_of_t
-  let compare s s' = String.compare (String.lowercase s) (String.lowercase s')
-end)
-type 'a smap = (string, 'a, Cisc.comparator_witness) Map.t
+type 'a smap = 'a String.Map.t
 
 type s_element = string
 type s_category = string
@@ -240,8 +233,8 @@ let extract file =
     let parts = parse_body body in
     (eltname, parts)
   ) in
-  let elements = Map.empty ~comparator:Cisc.comparator in
-  let categories = Map.empty ~comparator:Cisc.comparator in
+  let elements = String.Map.empty in
+  let categories = String.Map.empty in
   let t = { elements; categories; unparsed = [] } in
   let f t (elt_name, parts) =
     let t = add_element t elt_name in
