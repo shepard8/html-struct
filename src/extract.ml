@@ -62,11 +62,15 @@ type elem_props = {
 }
 
 let r_dd = Regex.create_exn "<dd>(?P<content>(?sU).*)</dd>"
-let r_spaces = Regex.create_exn "[ \r\n]+"
+let r_spaces = Regex.create_exn "[ \t\r\n]+"
+let r_spaces_be = Regex.create_exn "^[ \t\r\n]+|[ \t\r\n]+$"
 let parse_dds body =
   Regex.find_all_exn ~sub:(`Name "content") r_dd body |>
   List.map ~f:(fun dd ->
     Regex.replace_exn ~f:(fun _ -> " ") r_spaces dd
+  ) |>
+  List.map ~f:(fun dd ->
+    Regex.replace_exn ~f:(fun _ -> "") r_spaces_be dd
   )
 
 let parse_body body =
