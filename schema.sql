@@ -80,6 +80,13 @@ CREATE TABLE element_context_subelement (
   ecs_sub elt_name REFERENCES element
 );
 
+CREATE TABLE element_context_between (
+  elt_name elt_name REFERENCES element,
+  ecb_parent elt_name REFERENCES element,
+  ecb_before elt_names,
+  ecb_after elt_names
+);
+
 CREATE TABLE unparsed (
   elt_name elt_name REFERENCES element,
   unp_section VARCHAR(50) NOT NULL,

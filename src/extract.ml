@@ -38,6 +38,7 @@ and elt_context =
   | Context_category of s_category * provenance
   | Context_element of s_element * bool * bool * provenance (* first * once *)
   | Context_subelement of s_element * s_element * provenance
+  | Context_between of s_element * s_element list * s_element list * provenance
 
 type unparsed = s_element * string * string
 
@@ -58,9 +59,13 @@ type elem_props = {
   dom_interface : string list;
 }
 
+let r_dd = Regex.create_exn "<dd>(?P<content>(?sU).*)</dd>"
+let r_spaces = Regex.create_exn "[ \r\n]+"
 let parse_dds body =
-  let r = Regex.create_exn "<dd>(?P<content>(?sU).*)</dd>" in
-  Regex.find_all_exn ~sub:(`Name "content") r body
+  Regex.find_all_exn ~sub:(`Name "content") r_dd body |>
+  List.map ~f:(fun dd ->
+    Regex.replace_exn ~f:(fun _ -> " ") r_spaces dd
+  )
 
 let parse_body body =
   match Regex.split (Regex.create_exn "<dt>") body with
@@ -170,7 +175,8 @@ let add_context t elt_name context =
   | Context_root _
   | Context_subdocument _
   | Context_element _
-  | Context_subelement _ -> t
+  | Context_subelement _
+  | Context_between _ -> t
   in
   let elt = Map.find_exn t.elements elt_name in
   let elt = { elt with contexts = context :: elt.contexts } in
@@ -217,8 +223,22 @@ let l_contexts elt_name t = HtmlRe.([
   (fun dd -> first_match (
     e |> ds |> txt "In a " |> elt |> txt " element that is a child of a " |>
     elt |> txt " element." |> de
-  ) (fun eltname subname ->
-    let context = Context_subelement (eltname, subname, dd) in
+  ) (fun parent subname ->
+    let context = Context_subelement (parent, subname, dd) in
+    add_context t elt_name context
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "As a child of a " |> elt |> txt " element, after any " |> all |>
+    txt " and before any " |> all |>
+    txt ", but only if there are no other " |> elt |>
+    txt " elements that are children of the " |> elt |> txt " element." |> de
+  ) (fun parent before after elt_name' parent' ->
+    assert (elt_name = elt_name');
+    assert (parent = parent');
+    let before : string list = all_of elt before in
+    let after : string list = all_of elt after in
+    let context = Context_between (parent, before, after, dd) in
     add_context t elt_name context
   ) dd);
 
