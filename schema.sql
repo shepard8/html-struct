@@ -45,6 +45,13 @@ CREATE TABLE element_category_value (
   PRIMARY KEY (elt_name, cat_name, att_name, ecv_value, ecv_neg)
 );
 
+CREATE TABLE element_category_no_descendant (
+  elt_name elt_name REFERENCES element,
+  cat_name cat_name REFERENCES category,
+  eld_elt elt_name REFERENCES element,
+  PRIMARY KEY (elt_name, cat_name, eld_elt)
+);
+
 CREATE TABLE element_context_category (
   elt_name elt_name REFERENCES element,
   cat_name cat_name REFERENCES category,

@@ -31,6 +31,7 @@ and elt_category =
   | Category_has_elts of s_category * s_element list * provenance
   | Category_has_attr of s_category * s_attribute * provenance
   | Category_attr_is of s_category * s_attribute * string * bool * provenance
+  | Category_no_descendant of s_category * s_element * provenance
 and elt_context =
   | Context_root of provenance
   | Context_subdocument of provenance
@@ -144,6 +145,14 @@ let l_categories elt_name t = HtmlRe.([
       let category = Category_attr_is (catname, attname, con, neg, dd) in
       add_category t elt_name catname category
     )
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> cat |> txt ", but with no " |> elt |>
+    txt " element descendants." |> de
+  ) (fun catname eltname ->
+    let category = Category_no_descendant (catname, eltname, dd) in
+    add_category t elt_name catname category
   ) dd);
 
   (fun dd -> Some (add_unparsed t (elt_name, "category", dd)));

@@ -144,6 +144,8 @@ INSERT INTO element_category (elt_name, cat_name) VALUES ('the-article-element',
 -- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-article-element', 'sectioning-content-0');
 -- <a href="#sectioning-content-0">Sectioning content</a>.
+INSERT INTO element_category_no_descendant (elt_name, cat_name, eld_elt)VALUES ('the-article-element', 'flow-content-1', 'the-main-element');
+-- <a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-main-element">main</a></code> element descendants.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'palpable-content-0');
 -- <a href="#palpable-content-0">Palpable content</a>.
 INSERT INTO element_category (elt_name, cat_name) VALUES ('the-aside-element', 'sectioning-content-0');
@@ -849,7 +851,6 @@ INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-main-element
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-figcaption-element', 'context', 'As the first or last child of a <code><a href="#the-figure-element">figure</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dd-element', 'context', 'After <code><a href="#the-dt-element">dt</a></code> or <code><a href="#the-dd-element">dd</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-dt-element', 'context', 'Before <code><a href="#the-dd-element">dd</a></code> or <code><a href="#the-dt-element">dt</a></code> elements inside <code><a href="#the-dl-element">dl</a></code> elements.');
-INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-article-element', 'category', '<a href="#flow-content-1">Flow content</a>, but with no <code><a href="#the-main-element">main</a></code> element descendants.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-body-element', 'context', 'As the second element in an <code><a href="#the-html-element">html</a></code> element.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-name"><a href="#attr-meta-name">name</a></code> attribute is present: where <a href="#metadata-content-0">metadata content</a> is expected.');
 INSERT INTO unparsed (elt_name, unp_section, unp_text) VALUES ('the-meta-element', 'context', 'If the <code data-anolis-xref="attr-meta-http-equiv"><a href="#attr-meta-http-equiv">http-equiv</a></code> attribute is present but not in the <a data-anolis-xref="attr-meta-http-equiv-content-type" href="#attr-meta-http-equiv-content-type">encoding declaration state</a>: in a <code><a href="#the-noscript-element">noscript</a></code> element that is a child of a <code><a href="#the-head-element">head</a></code> element.');

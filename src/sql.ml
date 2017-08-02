@@ -33,6 +33,12 @@ let print_sql_category eltname = function
         "(elt_name, cat_name, att_name, ecv_value, ecv_neg) " ^^
         "VALUES ('%s', '%s', '%s', '%s', %s);\n%s\n"
       ) eltname catname attrname value (sql_of_bool neg) (comment_sql prov)
+  | Extract.Category_no_descendant (catname, e, prov) ->
+      printf (
+        "INSERT INTO element_category_no_descendant " ^^
+        "(elt_name, cat_name, eld_elt)" ^^
+        "VALUES ('%s', '%s', '%s');\n%s\n"
+      ) eltname catname e (comment_sql prov)
 
 let print_sql_context eltname = function
   | Extract.Context_category (cat, prov) ->
