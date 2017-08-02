@@ -61,7 +61,7 @@ CREATE TABLE element_context_category (
 CREATE TABLE element_context_child_of (
   elt_name elt_name REFERENCES element,
   ecc_child_of elt_name REFERENCES element,
-  ecc_first BOOLEAN NOT NULL,
+  ecc_position VARCHAR(20) NOT NULL,
   ecc_once BOOLEAN NOT NULL,
   PRIMARY KEY (elt_name, ecc_child_of)
 );

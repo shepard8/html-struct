@@ -2,7 +2,7 @@ open Printf
 module Regex = Re2.Regex
 open Core
 
-let sql_of_bool = function
+let of_bool = function
   | true -> "TRUE"
   | false -> "FALSE"
 
@@ -11,6 +11,12 @@ let comment s =
   "-- " ^ Regex.replace_exn ~f:(fun _ -> "\n  -- ") r s
 
 let tab l = String.concat ~sep:", " l
+
+let of_position = function
+  | Extract.Pos_first -> "first"
+  | Extract.Pos_second -> "second"
+  | Extract.Pos_firstlast -> "first or last"
+  | Extract.Pos_any -> "any"
 
 let print_sql_category eltname = function
   | Extract.Category (catname, prov) ->
@@ -33,7 +39,7 @@ let print_sql_category eltname = function
         "INSERT INTO element_category_value " ^^
         "(elt_name, cat_name, att_name, ecv_value, ecv_neg) " ^^
         "VALUES ('%s', '%s', '%s', '%s', %s);\n%s\n"
-      ) eltname catname attrname value (sql_of_bool neg) (comment prov)
+      ) eltname catname attrname value (of_bool neg) (comment prov)
   | Extract.Category_no_descendant (catname, e, prov) ->
       printf (
         "INSERT INTO element_category_no_descendant " ^^
@@ -47,12 +53,12 @@ let print_sql_context eltname = function
         "INSERT INTO element_context_category (elt_name, cat_name) " ^^
         "VALUES ('%s', '%s');\n%s\n"
       ) eltname cat (comment prov)
-  | Extract.Context_element (e', first, once, prov) ->
+  | Extract.Context_element (e', pos, once, prov) ->
       printf (
         "INSERT INTO element_context_child_of " ^^
-        "(elt_name, ecc_child_of, ecc_first, ecc_once) " ^^
-        "VALUES ('%s', '%s', %s, %s);\n%s\n"
-      ) eltname e' (sql_of_bool first) (sql_of_bool once) (comment prov)
+        "(elt_name, ecc_child_of, ecc_position, ecc_once) " ^^
+        "VALUES ('%s', '%s', '%s', %s);\n%s\n"
+      ) eltname e' (of_position pos) (of_bool once) (comment prov)
   | Extract.Context_root prov ->
       printf (
         "INSERT INTO element_context_root (elt_name) " ^^

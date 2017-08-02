@@ -12,6 +12,8 @@ type s_attribute = string
 type provenance = string (* The html fragment between <dd> and </dd> which led
 to the construct it is attached to. *)
 
+type position = Pos_first | Pos_second | Pos_firstlast | Pos_any
+
 type element = {
   elt_name : string;
   categories : elt_category list;
@@ -36,7 +38,7 @@ and elt_context =
   | Context_root of provenance
   | Context_subdocument of provenance
   | Context_category of s_category * provenance
-  | Context_element of s_element * bool * bool * provenance (* first * once *)
+  | Context_element of s_element * position * bool * provenance (* bool : once *)
   | Context_subelement of s_element * s_element * provenance
   | Context_between of s_element * s_element list * s_element list * provenance
 
@@ -202,12 +204,26 @@ let l_contexts elt_name t = HtmlRe.([
   ) dd);
 
   (fun dd -> first_match (
-    e |> ds |> one_of ["As a "; "As the first "; "Inside "] |>
-    one_of ["element in a "; "element in an "; "child of a "; "child of an "; ""] |>
+    e |> ds |>
+    one_of [
+      "As a "; "Inside ";
+      "As the first ";
+      "As the second ";
+      "As the first or last ";
+    ] |>
+    one_of [
+      "element in a "; "element in an "; "child of a "; "child of an ";
+      "element child of a "; ""
+    ] |>
     elt |> one_of [" element."; " elements."] |> de
   ) (fun first _ eltname _ ->
-    let first : bool = first = "As the first " in
-    let context = Context_element (eltname, first, false, dd) in
+    let position = match first with
+    | "As the first " -> Pos_first
+    | "As the second " -> Pos_second
+    | "As the first or last " -> Pos_firstlast
+    | _ -> Pos_any
+    in
+    let context = Context_element (eltname, position, false, dd) in
     add_context t elt_name context
   ) dd);
 
@@ -216,7 +232,7 @@ let l_contexts elt_name t = HtmlRe.([
     elt |> txt " elements." |> de
   ) (fun eltname elt_name' ->
     assert (elt_name = elt_name');
-    let context = Context_element (eltname, false, true, dd) in
+    let context = Context_element (eltname, Pos_any, true, dd) in
     add_context t elt_name context
   ) dd);
 
