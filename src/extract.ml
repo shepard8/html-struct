@@ -1,3 +1,5 @@
+(* TODO Cisc is no longer needed *)
+
 open Core
 open Printf
 module Regex = Re2.Regex
@@ -86,37 +88,6 @@ let add_element t elt_name =
 
 let add_unparsed t u = { t with unparsed = u :: t.unparsed }
 
-let sr_element name =
-  sprintf "<code><a href=\"#%s\">[a-zA-Z0-9,-]+</a></code>" name
-
-let sr_capture_element name =
-  sprintf (
-    "<code><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
-    "(?:(?sU)[a-zA-Z0-9,-]*)" ^^
-    "</a></code>"
-  ) name
-
-let sr_capture_category name =
-  sprintf (
-    "<a (?:data-anolis-xref=\"[a-zA-Z0-9, -]+\" |)href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^
-    "(?:(?sU).*)" ^^
-    "</a>"
-  ) name
-
-let sr_capture_attribute name =
-  sprintf (
-    "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#(?P<%s>[a-zA-Z0-9,-]+)\">" ^^ (* TODO can we add attr- in the <%s> group? *)
-    "(?:(?sU).*)" ^^
-    "</a></code>"
-  ) name
-
-let sr_capture_value name =
-  sprintf (
-    "<a data-anolis-xref=\"[a-zA-Z0-9 ,-]+\" href=\"#(?P<%s>[a-zA-Z0-9()= ,-]+)\">" ^^
-    "[a-zA-Z0-9, -]+" ^^
-    "</a>"
-  ) name
-
 let ensure_category (t : t) catname =
   if Map.mem t.categories catname then t
   else
@@ -132,8 +103,6 @@ let add_category t elt_name catname elt_category =
   { t with elements = Map.add t.elements elt_name elt }
 
 let l_categories elt_name t = HtmlRe.([
-  (* CHECK it seems that some elements have the None category while they should
-   * not. *)
   (fun dd -> first_match (
     e |> ds |> txt "None." |> de
   ) (
@@ -205,38 +174,60 @@ let add_context t elt_name context =
   let elt = { elt with contexts = context :: elt.contexts } in
   { t with elements = Map.add t.elements elt_name elt }
 
-let r_context_cat = Regex.create_exn ("^Where " ^ sr_capture_category "cat" ^ " (?:is|are) expected.$")
-let r_context_elt = Regex.create_exn ("^(?P<pos>As a|As the first|Inside)(?: element in an?| child of an?|) " ^ sr_capture_element "elt" ^ " elements?\\.$")
-let r_context_once elt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element containing no other " ^ sr_element elt ^ " elements.$")
-let r_context_subelt = Regex.create_exn ("^In a " ^ sr_capture_element "elt" ^ " element that is a child of a " ^ sr_capture_element "sub" ^ " element.$")
+let l_contexts elt_name t = HtmlRe.([
+  (fun dd -> first_match (
+    e |> ds |> txt "As the root element of a document." |> de
+  ) (
+    add_context t elt_name (Context_root dd)
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "Wherever a subdocument fragment is allowed in a compound document." |> de
+  ) (
+    add_context t elt_name (Context_subdocument dd)
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "Where " |> cat |> one_of [" is"; " are"] |> txt " expected." |> de
+  ) (fun catname _ ->
+    add_context t elt_name (Context_category (catname, dd))
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> one_of ["As a "; "As the first "; "Inside "] |>
+    one_of ["element in a "; "element in an "; "child of a "; "child of an "; ""] |>
+    elt |> one_of [" element."; " elements."] |> de
+  ) (fun first _ eltname _ ->
+    let first : bool = first = "As the first " in
+    let context = Context_element (eltname, first, false, dd) in
+    add_context t elt_name context
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "In a " |> elt |> txt " element containing no other " |>
+    elt |> txt " elements." |> de
+  ) (fun eltname elt_name' ->
+    assert (elt_name = elt_name');
+    let context = Context_element (eltname, false, true, dd) in
+    add_context t elt_name context
+  ) dd);
+
+  (fun dd -> first_match (
+    e |> ds |> txt "In a " |> elt |> txt " element that is a child of a " |>
+    elt |> txt " element." |> de
+  ) (fun eltname subname ->
+    let context = Context_subelement (eltname, subname, dd) in
+    add_context t elt_name context
+  ) dd);
+
+  (fun dd -> Some (add_unparsed t (elt_name, "context", dd)));
+])
+
 let add_contexts t elt_name dds =
   let f (t : t) dd =
-    if dd = "As the root element of a document." then
-      let context = Context_root dd in
-      add_context t elt_name context
-    else if dd = "Wherever a subdocument fragment is allowed in a compound document." then
-      let context = Context_subdocument dd in
-      add_context t elt_name context
-    else if Regex.matches r_context_cat dd then
-      let catname = Regex.find_first_exn ~sub:(`Name "cat") r_context_cat dd in
-      let context = Context_category (catname, dd) in
-      add_context t elt_name context
-    else if Regex.matches r_context_elt dd then
-      let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_elt dd in
-      let first = Regex.find_first_exn ~sub:(`Name "pos") r_context_elt dd = "As the first" in
-      let context = Context_element (eltname, first, false, dd) in
-      add_context t elt_name context
-    else if Regex.matches (r_context_once elt_name) dd then
-      let eltname = Regex.find_first_exn ~sub:(`Name "elt") (r_context_once elt_name) dd in
-      let context = Context_element (eltname, false, true, dd) in
-      add_context t elt_name context
-    else if Regex.matches r_context_subelt dd then
-      let eltname = Regex.find_first_exn ~sub:(`Name "elt") r_context_subelt dd in
-      let subname = Regex.find_first_exn ~sub:(`Name "sub") r_context_subelt dd in
-      let context = Context_subelement (eltname, subname, dd) in
-      add_context t elt_name context
-    else add_unparsed t (elt_name, "context", dd)
-  in List.fold dds ~init:t ~f
+    List.find_map_exn (l_contexts elt_name t) ~f:(fun f -> f dd)
+  in
+  List.fold dds ~init:t ~f
 
 let r_element = Regex.create_exn ("<h4 id=\"(?P<elt>the-[a-zA-Z0-9,-]+elements?)\"><span class=\"secno\">4\\.(?:(?sU).*)<dl class=\"element\">(?P<body>(?sU).*)</dl>")
 

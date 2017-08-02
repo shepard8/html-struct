@@ -1,3 +1,7 @@
+(* TODO can we use classes somehow? *)
+(* TODO add interface *)
+
+open Core
 open Printf
 module Regex = Re2.Regex
 
@@ -8,6 +12,10 @@ type (_, _) c =
 type ('a, 'b) t = (('a, 'b) c * string * int)
 
 let capture (s, r, i) re = (Cons s, r ^ sprintf re i, i + 1)
+
+let rec concat ~sep = function
+  | h :: t -> h ^^ sep ^^ (concat ~sep t)
+  | [] -> ""
 
 let e = (Empty, "", 0)
 let ds (s, r, i) = (s, r ^ "^", i)
@@ -39,6 +47,9 @@ let neg t = capture t (
 )
 let all t = capture t (
   "(?P<%d>(?s).*)"
+)
+let one_of l t = capture t (
+  "(?P<%d>" ^^ (concat ~sep:"|" l) ^^ ")"
 )
 
 let parse : type b. (_, b) c -> _ -> _ -> b -> _ -> _ = fun st re i f s ->
