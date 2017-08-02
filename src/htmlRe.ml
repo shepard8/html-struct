@@ -7,26 +7,33 @@ type (_, _) c =
 
 type ('a, 'b) t = (('a, 'b) c * string * int)
 
-let re = (Empty, "", 0)
-let delim_start (s, r, i) = (s, r ^ "^", i)
-let delim_end (s, r, i) = (s, r ^ "$", i)
-let text t (s, r, i) = (s, r ^ Regex.escape t, i)
-let elt (s, r, i) =
-  let sr = sprintf (
-    "<code><a href=\"#(?P<%d>[a-zA-Z0-9,-]+)\">" ^^
-    "(?:(?sU)[a-zA-Z0-9,-]+)" ^^
-    "</a></code>"
-  ) i
-  in
-  (Cons s, r ^ sr, i + 1)
-let cat (s, r, i) =
-  let sr = sprintf (
-    "<a (?:data-anolis-xref=\"[a-zA-Z0-9, -]+\" |)href=\"#(?P<%d>[a-zA-Z0-9,-]+)\">" ^^
-    "(?:(?sU).*)" ^^
-    "</a>"
-  ) i
-  in
-  (Cons s, r ^ sr, i + 1)
+let capture (s, r, i) re = (Cons s, r ^ sprintf re i, i + 1)
+
+let e = (Empty, "", 0)
+let ds (s, r, i) = (s, r ^ "^", i)
+let de (s, r, i) = (s, r ^ "$", i)
+let txt t (s, r, i) = (s, r ^ Regex.escape t, i)
+let elt t = capture t (
+  "<code><a href=\"#(?P<%d>[a-zA-Z0-9,-]+)\">" ^^
+  "(?:(?sU)[a-zA-Z0-9,-]+)" ^^
+  "</a></code>"
+)
+let cat t = capture t (
+  "<a (?:data-anolis-xref=\"[a-zA-Z0-9, -]+\" |)href=\"#(?P<%d>[a-zA-Z0-9,-]+)\">" ^^
+  "(?:(?sU).*)" ^^
+  "</a>"
+)
+let att t = capture t (
+  (* TODO can we add attr- in the <%d> group? *)
+  "<code data-anolis-xref=\"[a-zA-Z0-9,-]+\"><a href=\"#(?P<%d>[a-zA-Z0-9,-]+)\">" ^^
+  "(?:(?sU).*)" ^^
+  "</a></code>"
+)
+let con t = capture t (
+  "<a data-anolis-xref=\"[a-zA-Z0-9 ,-]+\" href=\"#(?P<%d>[a-zA-Z0-9()= ,-]+)\">" ^^
+  "[a-zA-Z0-=, -]" ^^
+  "</a>"
+)
 
 let parse : type b. (_, b) c -> _ -> _ -> b -> _ -> _ = fun st re i f s ->
   let rec aux : type a. ((a, b) c * int) -> a = fun (st, i) -> match st with
@@ -42,10 +49,4 @@ let first_match (s, r, i) f txt =
   if Regex.matches re txt
   then Some (parse s re (i - 1) f txt)
   else None
-
-let () =
-  let t = re |> delim_start |> elt |> text "." |> delim_end in
-  match first_match t (fun e -> e) "<code><a href=\"#coucou\">asoentuh</a></code>" with
-  | Some "coucou" -> print_endline ":-)"
-  | None | Some _ -> print_endline ":-("
 

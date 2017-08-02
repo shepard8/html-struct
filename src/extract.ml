@@ -131,6 +131,30 @@ let add_category t elt_name catname elt_category =
   let elt = { elt with categories = elt_category :: elt.categories } in
   { t with elements = Map.add t.elements elt_name elt }
 
+let r_none = HtmlRe.(e |> ds |> txt "None." |> de)
+let r_category = HtmlRe.(e |> ds |> cat |> txt "." |> de)
+let r_category_has_elt = HtmlRe.(
+  e |> ds |> txt "If the element's children include at least on " |>
+  elt |> txt " element: " |> cat |> txt ".")
+
+let l elt_name t = [
+  (fun dd -> HtmlRe.first_match r_none t dd);
+  (fun dd -> HtmlRe.first_match r_category (fun catname ->
+    add_category t elt_name catname (Category (catname, dd))
+  ) dd);
+  (fun dd -> HtmlRe.first_match r_category_has_elt (fun eltname catname ->
+    add_category t elt_name catname (Category_has_elts (catname, [eltname], dd))
+  ) dd);
+  (fun dd -> Some (add_unparsed t (elt_name, "category", dd)));
+]
+
+let add_categories t elt_name dds =
+  let f (t : t) dd =
+    List.find_map_exn (l elt_name t) ~f:(fun f -> f dd)
+  in
+  List.fold dds ~init:t ~f
+
+  (*
 let r_category = Regex.create_exn ("^" ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elt = Regex.create_exn ("^If the element's children include at least one " ^ sr_capture_element "elt" ^ " element: " ^ sr_capture_category "cat" ^ "\\.$")
 let r_category_has_elts = Regex.create_exn ("^If the element's children include at least one name-value group: " ^ sr_capture_category "cat" ^ "\\.$")
@@ -172,6 +196,7 @@ let add_categories t elt_name dds =
       )
     else add_unparsed t (elt_name, "category", dd)
   in List.fold dds ~init:t ~f
+  *)
 
 let add_context t elt_name context =
   let t = match context with
